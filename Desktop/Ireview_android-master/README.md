@@ -1,2 +1,0 @@
-# Ireview_android
-# IreviewAndroid
