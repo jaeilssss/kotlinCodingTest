@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 
 public class MyInfoHttp {
     private static final String Tag = "HttpSender";
-    private static final String Url = "http://192.168.0.129:8089/";
+    private static final String Url = "http://172.30.1.10:8089/";
     protected String apiName;
 
     protected RequestBody body;
