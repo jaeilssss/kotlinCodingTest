@@ -77,7 +77,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="kotlin-function">
           <url>file://$PROJECT_DIR$/src/main/kotlin/Solution.kt</url>
-          <line>65</line>
+          <line>61</line>
           <properties class="Solution" method="main">
             <option name="EMULATED" value="true" />
           </properties>

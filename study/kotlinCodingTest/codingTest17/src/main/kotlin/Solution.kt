@@ -24,10 +24,7 @@ class Solution {
                         currentStage[stages[i]] = num
                     }
                 }
-
-
         }
-
         for(i in stages.indices){
             for(j in 1..stages[i]){
 
@@ -37,7 +34,6 @@ class Solution {
                             stageCount.put(j,num)
                         }
                     }
-
             }
         }
 
