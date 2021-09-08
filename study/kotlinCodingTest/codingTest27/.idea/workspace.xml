@@ -1,21 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="6dc409f1-84de-4ea0-b200-55fd46fa1308" name="Default Changelist" comment="" />
+    <list default="true" id="3b726b93-d2ea-4615-90af-50867c66f94d" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
+        <option value="Kotlin Class" />
       </list>
     </option>
   </component>
-  <component name="ProjectId" id="1xeuklmr0ODqaBcbXQs4W6beNq7" />
+  <component name="ProjectId" id="1xkkt5rzKttGPZEuyeYEnGjYXjB" />
   <component name="PropertiesComponent">
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.0" />
@@ -35,16 +40,22 @@
     </option>
   </component>
   <component name="RunManager">
-    <configuration name="main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="main" />
-      <module name="codingTest24" />
+    <configuration name="SolutionKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
+      <module name="codingTest27.main" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="MAIN_CLASS_NAME" value="SolutionKt" />
+      <option name="WORKING_DIRECTORY" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.main" />
+        <item itemvalue="Kotlin.SolutionKt" />
       </list>
     </recent_temporary>
   </component>
@@ -53,11 +64,11 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="6dc409f1-84de-4ea0-b200-55fd46fa1308" name="Default Changelist" comment="" />
-      <created>1630728020919</created>
+      <changelist id="3b726b93-d2ea-4615-90af-50867c66f94d" name="Default Changelist" comment="" />
+      <created>1630906684765</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1630728020919</updated>
+      <updated>1630906684765</updated>
     </task>
     <servers />
   </component>
