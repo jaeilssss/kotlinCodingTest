@@ -1,31 +1,35 @@
 class Solution {
-    fun solution(strings: Array<String>, n: Int): Array<String> {
-        for(i in strings.indices){
+    private fun lcm(a: Int, b: Int) : Int{
 
-            for(j in i+1 until strings.size){
-                if(strings[i][n] > strings[j][n]){
+        return a*b/gcm(a, b)
+    }
 
-                    var temp = strings[i]
-                    strings[i]=strings[j]
-                    strings[j]=temp
-                }else if(strings[i][n]==strings[j][n]){
-                    if(strings[i]>strings[j]){
-                        var temp = strings[i]
-                        strings[i]=strings[j]
-                        strings[j]=temp
-                    }
-                }
-            }
+    private fun gcm(a: Int, b: Int) : Int{
+        var num =a
+        var num2 = b
+        while (num2!=0){
+            val r = num%num2
+
+            num=num2
+            num2 = r
         }
-        return strings
+        return num
+    }
+    fun solution(arr: IntArray): Int {
+        var answer=  arr[0]
+        for(i in 1 until arr.size){
+
+            answer = lcm(answer, arr[i])
+        }
+
+
+        return answer
     }
 }
+
+
 fun main(){
-    var list = Solution().solution(
-        arrayOf("sun", "bed", "car"),
-        1
-    )
-    for(i in list.indices){
-        println(list[i])
-    }
+
+println(Solution().solution(intArrayOf(1,2,3)))
+
 }
