@@ -1,41 +1,37 @@
 class Solution {
-    fun solution(enter: IntArray, leave: IntArray): IntArray {
-        var answer: IntArray = IntArray(enter.size)
-        var enterIndex = 0
-        var leaveIndex = 0
-        var enterHash = HashMap<Int , Int>()
-        while (true){
-            if(leaveIndex!=leave.size){
-                if(enterHash.keys.contains(leave[leaveIndex]).not()){
-
-                    for(key in enterHash.keys){
-                        enterHash.put(key , enterHash.get(key)!!+1)
-                    }
-                    enterHash.put(enter[enterIndex++],enterHash.keys.size)
-
-                }else{
-                    answer[leave[leaveIndex]-1] = enterHash.get(leave[leaveIndex])!!
-                    enterHash.remove(leave[leaveIndex])
-                    leaveIndex++
-
-                }
-            }else{
-                break
-            }
-        }
+    companion object{
+        lateinit var memo : IntArray
+    }
+    fun solution(n: Int): Int {
+        var answer = 0
+        memo = IntArray(n+1)
+        answer = fibonacci(n)
 
         return answer
     }
+
+    fun fibonacci(num: Int) : Int{
+        return if(num==0){
+            0
+        } else if(num<=2){
+            1
+        }else if(num==3){
+            2
+        }else if(num==5){
+            5
+        } else{
+            if(memo[num]!=0){
+                memo[num]
+            }else{
+                memo[num] = (fibonacci(num-1)+fibonacci(num-2))%1234567
+                memo[num]
+            }
+        }
+    }
 }
 
+
+
 fun main(){
-
-
-    var answer = Solution().solution(
-        intArrayOf(1,4,2,3),
-        intArrayOf(2,1,4,3)
-    )
-    for(i in answer.indices){
-        println(answer[i])
-    }
+        println(Solution().solution(3))
 }
