@@ -1,37 +1,27 @@
 class Solution {
-    companion object{
-        lateinit var memo : IntArray
-    }
-    fun solution(n: Int): Int {
-        var answer = 0
-        memo = IntArray(n+1)
-        answer = fibonacci(n)
+    fun solution(brown: Int, yellow: Int): IntArray {
+        var answer = IntArray(2)
 
-        return answer
-    }
+        var sum = brown+yellow
 
-    fun fibonacci(num: Int) : Int{
-        return if(num==0){
-            0
-        } else if(num<=2){
-            1
-        }else if(num==3){
-            2
-        }else if(num==5){
-            5
-        } else{
-            if(memo[num]!=0){
-                memo[num]
-            }else{
-                memo[num] = (fibonacci(num-1)+fibonacci(num-2))%1234567
-                memo[num]
+        for(i in 2..sum){
+            if(sum%i==0){
+                if(sum/i<=i){
+                    answer[0]=i
+                    answer[1]=sum/i
+                    break
+                }
             }
         }
+        return answer
     }
 }
 
 
 
+
 fun main(){
-        println(Solution().solution(3))
+    var data = Solution().solution(5000,2000000)
+    println(data[0])
+    println(data[1])
 }
