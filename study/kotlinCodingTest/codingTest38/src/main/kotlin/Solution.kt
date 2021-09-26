@@ -1,35 +1,31 @@
+import apple.laf.JRSUIConstants
+
+import java.util.*
 import kotlin.math.min
-
+import java.lang.StringBuilder
 class Solution {
-    fun solution(name: String): Int {
-        var answer = 0
-        var move = name.length-1
-        for(i in name.indices){
-            var next = i + 1
-
-                while(next<name.length && name[next] == 'A'){
-                    next++
+    fun solution(number: String, k: Int): String {
+        var answer = StringBuilder()
+        var index = -1
+        for(i in 0 until number.length-k){
+            var max : Char = '0'
+            for(j in index+1..k+i){
+                if(max<number[j]){
+                    max = number[j]
+                    index=j
                 }
-
-                move = min(move,i+name.length-next +i)
-
-            if(name[i].equals('A').not()){
-
-                    var temp = name[i].toInt()-65
-                    if(temp>=13){
-                        temp = (26-temp)
-                    }
-                    answer +=temp
             }
+            answer.append(max)
         }
 
-        answer +=move
-        return answer
+        return answer.toString()
     }
+
+
 }
 
 
 
 fun main(){
-println(Solution().solution("JAN"))
+        println(Solution().solution("1924",2))
 }
