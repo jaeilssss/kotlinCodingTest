@@ -1,27 +1,35 @@
+import kotlin.math.min
+
 class Solution {
-    fun solution(brown: Int, yellow: Int): IntArray {
-        var answer = IntArray(2)
+    fun solution(name: String): Int {
+        var answer = 0
+        var move = name.length-1
+        for(i in name.indices){
+            var next = i + 1
 
-        var sum = brown+yellow
-
-        for(i in 2..sum){
-            if(sum%i==0){
-                if(sum/i<=i){
-                    answer[0]=i
-                    answer[1]=sum/i
-                    break
+                while(next<name.length && name[next] == 'A'){
+                    next++
                 }
+
+                move = min(move,i+name.length-next +i)
+
+            if(name[i].equals('A').not()){
+
+                    var temp = name[i].toInt()-65
+                    if(temp>=13){
+                        temp = (26-temp)
+                    }
+                    answer +=temp
             }
         }
+
+        answer +=move
         return answer
     }
 }
 
 
 
-
 fun main(){
-    var data = Solution().solution(5000,2000000)
-    println(data[0])
-    println(data[1])
+println(Solution().solution("JAN"))
 }

@@ -77,11 +77,11 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="kotlin-function">
           <url>file://$PROJECT_DIR$/src/main/kotlin/Solution.kt</url>
-          <line>22</line>
-          <properties class="Solution" method="main">
+          <line>32</line>
+          <properties method="main">
             <option name="EMULATED" value="true" />
           </properties>
-          <option name="timeStamp" value="1" />
+          <option name="timeStamp" value="5" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
