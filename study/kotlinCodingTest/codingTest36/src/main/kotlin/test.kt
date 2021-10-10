@@ -1,0 +1,6 @@
+class test {
+
+    fun main(){
+
+    }
+}

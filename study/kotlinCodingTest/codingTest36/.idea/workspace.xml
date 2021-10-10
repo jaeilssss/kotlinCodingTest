@@ -17,6 +17,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Kotlin File" />
+        <option value="Kotlin Class" />
       </list>
     </option>
   </component>
@@ -39,7 +40,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Kotlin.SolutionKt">
+  <component name="RunManager" selected="Kotlin.MainKt">
     <configuration name="MainKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
       <module name="codingTest36.main" />
       <option name="VM_PARAMETERS" />
@@ -68,8 +69,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Kotlin.SolutionKt" />
         <item itemvalue="Kotlin.MainKt" />
+        <item itemvalue="Kotlin.SolutionKt" />
       </list>
     </recent_temporary>
   </component>
@@ -91,7 +92,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="kotlin-function">
           <url>file://$PROJECT_DIR$/src/main/kotlin/Solution.kt</url>
-          <line>37</line>
+          <line>18</line>
           <properties class="Solution">
             <option name="EMULATED" value="true" />
           </properties>
