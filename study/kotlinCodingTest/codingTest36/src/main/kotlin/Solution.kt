@@ -1,19 +1,58 @@
+import java.lang.StringBuilder
+import kotlin.math.min
+
 class Solution {
-    fun solution(n: Int, wires: Array<IntArray>): Int {
-        var answer: Int = -1
-        var dfsGraph: Array<IntArray?>
+    fun solution(s: String): Int {
+        var answer = s.length
+        var startIndex = 1
+        var endIndex = 1
+        var count = 1
 
+        while(endIndex<=s.length){
+            var str = s.substring(0,endIndex)
+            var isChange  = false
+            var temp = ""
+            var sb = StringBuilder()
+            count=1
+            startIndex = endIndex
+            while(startIndex+endIndex<=s.length){
+                var sub = s.substring(startIndex,endIndex+startIndex)
+                if(sub==str){
+                    isChange = true
+                    count++
+                    temp = count.toString()+str
+                }else{
+                    if(isChange){
+                    sb.append(temp)
 
-        var arr1 = Array<IntArray>(5){IntArray(4)}
+                    }else{
+                        sb.append(str)
+                    }
+                    isChange = false
+                    str = sub
+                    count =1
+                    temp =""
+                }
+                startIndex +=endIndex
 
+            }
+
+            if(temp.isEmpty()){
+            sb.append(s.substring(startIndex-endIndex,s.length))
+            }else{
+                sb.append(temp+s.substring(startIndex,s.length))
+            }
+
+            answer = min(answer,sb.length)
+            endIndex++
+        }
         return answer
     }
 }
 
 fun main(){
-    var arr1 = Array<IntArray>(5){IntArray(4)}
-    arr1[0][0]=1
-    println(arr1[0][0])
+
+    println(Solution().solution("ababcdcdababcdcd"))
 }
 
 
