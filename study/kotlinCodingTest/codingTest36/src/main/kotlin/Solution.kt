@@ -1,58 +1,40 @@
-import java.lang.StringBuilder
-import kotlin.math.min
-
 class Solution {
-    fun solution(s: String): Int {
-        var answer = s.length
-        var startIndex = 1
-        var endIndex = 1
-        var count = 1
+    fun solution(record: Array<String>): Array<Any> {
 
-        while(endIndex<=s.length){
-            var str = s.substring(0,endIndex)
-            var isChange  = false
-            var temp = ""
-            var sb = StringBuilder()
-            count=1
-            startIndex = endIndex
-            while(startIndex+endIndex<=s.length){
-                var sub = s.substring(startIndex,endIndex+startIndex)
-                if(sub==str){
-                    isChange = true
-                    count++
-                    temp = count.toString()+str
-                }else{
-                    if(isChange){
-                    sb.append(temp)
-
-                    }else{
-                        sb.append(str)
-                    }
-                    isChange = false
-                    str = sub
-                    count =1
-                    temp =""
-                }
-                startIndex +=endIndex
-
+        var member = HashMap<String,String>()
+        var count = 0
+        for(i in record.indices){
+            var str = record[i].split(" ")
+            if(str.size==3){
+                member.put(str[1],str[2])
             }
-
-            if(temp.isEmpty()){
-            sb.append(s.substring(startIndex-endIndex,s.length))
-            }else{
-                sb.append(temp+s.substring(startIndex,s.length))
-            }
-
-            answer = min(answer,sb.length)
-            endIndex++
         }
-        return answer
+        var answer = ArrayList<String>()
+        for(i in record.indices){
+            var str = record[i].split(" ")
+            if(str[0].equals("Enter")){
+
+                answer.add("${member.get(str[1])}님이 들어왔습니다.")
+
+            }else if(str[0].equals("Leave")){
+
+                answer.add("${member.get(str[1])}님이 나갔습니다.")
+
+            }
+
+        }
+
+
+        return answer.toArray()
     }
 }
 
 fun main(){
+    var data = Solution().solution(arrayOf("Enter uid1234 Muzi", "Enter uid4567 Prodo","Leave uid1234","Enter uid1234 Prodo","Change uid4567 Ryan"))
 
-    println(Solution().solution("ababcdcdababcdcd"))
+    for(i in data.indices){
+        print(data[i])
+    }
 }
 
 
