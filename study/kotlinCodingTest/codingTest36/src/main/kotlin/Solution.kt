@@ -1,40 +1,46 @@
+import kotlin.math.max
+
 class Solution {
-    fun solution(record: Array<String>): Array<Any> {
-
-        var member = HashMap<String,String>()
-        var count = 0
-        for(i in record.indices){
-            var str = record[i].split(" ")
-            if(str.size==3){
-                member.put(str[1],str[2])
+    var graphs : Array<IntArray> = arrayOf()
+    var count = 0
+    fun solution(n: Int, wires: Array<IntArray>): Int {
+        var answer: Int = 1000
+        var idx = 0
+        graphs = Array(n+1){ IntArray(n+1) }
+        while(idx!=n){
+            graphs = Array(n+1){ IntArray(n+1) }
+            for(i in wires.indices){
+                if(idx!=i){
+                    graphs[wires[i][0]][wires[i][1]]=1
+                    graphs[wires[i][1]][wires[i][0]]=1
+                }
             }
-        }
-        var answer = ArrayList<String>()
-        for(i in record.indices){
-            var str = record[i].split(" ")
-            if(str[0].equals("Enter")){
-
-                answer.add("${member.get(str[1])}님이 들어왔습니다.")
-
-            }else if(str[0].equals("Leave")){
-
-                answer.add("${member.get(str[1])}님이 나갔습니다.")
-
-            }
+            count = 0
+            dfs(1,-1)
+            var temp = Math.abs(n-count*2)
+            answer = Math.min(temp,answer)
+            idx++
 
         }
 
+        return answer
+    }
+    fun dfs(v : Int,except : Int){
+          count++
+        for(i in graphs[v].indices){
+            if(i!=except && graphs[v][i]==1){
+                dfs(i,v)
+            }
 
-        return answer.toArray()
+        }
     }
 }
 
 fun main(){
-    var data = Solution().solution(arrayOf("Enter uid1234 Muzi", "Enter uid4567 Prodo","Leave uid1234","Enter uid1234 Prodo","Change uid4567 Ryan"))
-
-    for(i in data.indices){
-        print(data[i])
-    }
+ println(Solution().solution(9, arrayOf(intArrayOf(1,3),intArrayOf(2,3),intArrayOf(3,4),intArrayOf(4,5),intArrayOf(4,6),intArrayOf(4,7),
+     intArrayOf(7,8),
+     intArrayOf(7,9)
+ )))
 }
 
 
