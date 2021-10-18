@@ -1,4 +1,5 @@
 
+import java.lang.StringBuilder
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -8,34 +9,62 @@ var dx = intArrayOf(-1,0,1,0)
 var dy = intArrayOf(0,-1,0,1)
 var answer = 0
 var count = 0
+var startX=-1
+var startY = -1
 fun main(){
-  var num = readLine()!!.toInt()
-    var list = ArrayList<Int>()
-    for(i in 0 until num){
-        answer=0
-        var str = readLine()!!.split(" ")
-        graphs = Array(str[0].toInt()+2){ IntArray(str[1].toInt()+2) }
-        visited = Array(str[0].toInt()+2){ BooleanArray(str[1].toInt()+2) }
-        for(j in 0 until str[2].toInt()){
-            var input = readLine()!!.split(" ")
-            graphs[input[0].toInt()+1][input[1].toInt()+1]=1
-        }
 
-        for(a in 1 until str[0].toInt()+1){
-            for(m in 1 until str[1].toInt()+1){
-                if(!visited[a][m] && graphs[a][m]==1){
-                    dfs(a,m)
-                    answer++
+    var size = readLine()!!.toInt()
+    var array = IntArray(size)
+    var str = readLine()!!.split(" ")
+    for(i in 0 until size){
+        array[i] = str[i].toInt()
+    }
+    var count = readLine()!!.toInt()
+    for(i in 0 until count){
+
+        var input = readLine()!!.split(" ")
+        if (input[0].toInt()==1){
+            var temp = input[1].toInt()
+            var addNum =2
+            while(temp<=size){
+                 if(array[temp-1]==1) array[temp-1]=0
+                else array[temp-1]=1
+                temp  = (input[1].toInt())*addNum
+                addNum++
+            }
+        }else{
+
+            var right = 1
+            var left=-1
+           if(array[input[1].toInt()-1]==1) array[input[1].toInt()-1] = 0 else array[input[1].toInt()-1] = 1
+            while(true){
+
+                if(input[1].toInt()-1+left>=0 && input[1].toInt()-1+right<size){
+                    if(array[input[1].toInt()-1+left]==array[input[1].toInt()-1+right]){
+                        if(array[input[1].toInt()-1+left]==1) array[input[1].toInt()-1+left]=0 else array[input[1].toInt()-1+left]=1
+                        if(array[input[1].toInt()-1+right]==1) array[input[1].toInt()-1+right]=0 else array[input[1].toInt()-1+right]=1
+                        right++
+                        left--
+
+                    }else{
+                        break
+                    }
+                }else{
+                    break
                 }
             }
+
         }
-        list.add(answer)
+
+
     }
-for(i in list.indices){
-    println(list.get(i))
+for(i in 0 until size){
+    print("${array[i]} ")
+
 }
-
-
+    println()
+}
+fun bfs(){
 
 }
 fun dfs(x : Int , y : Int){
