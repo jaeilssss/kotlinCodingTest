@@ -1,81 +1,47 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
+import java.util.LinkedList;
 
-class Solution {
-    public int solution(String dirs) {
+class Solution
+{
+    public int solution(int n, int a, int b)
+    {
+        int answer = 0;
+        Boolean check = false;
+        int num = n/2;
+        // [실행] 버튼을 누르면 출력 값을 볼 수 있습니다.
 
-        HashMap<String,Integer> visited = new HashMap<>();
+        LinkedList<Integer> queue = new LinkedList<>();
 
-        int xPoint = 5;
-        int yPoint = 5;
+        for(int i = 1 ; i<=n ; i++){
+            queue.add(i);
+        }
 
-        for(int  i = 0 ; i<dirs.length();i++){
-            if(dirs.charAt(i)=='U'){
-                if(yPoint!=10){
-                    String depart = String.valueOf(xPoint)+String.valueOf(yPoint);
-                    yPoint++;
-                    String arrive = String.valueOf(xPoint)+String.valueOf(yPoint);
-                    if(visited.size()==0){
-                        visited.put(depart+arrive,1);
-                    } else if(!visited.containsKey(depart + arrive) && !visited.containsKey(arrive + depart)){
-                        visited.put(depart+arrive,1);
-                    }
-                }
+        while (!check){
 
-            }else if(dirs.charAt(i)=='D'){
-                if(yPoint!=0){
-                    String depart = String.valueOf(xPoint)+String.valueOf(yPoint);
-                    yPoint--;
-                  String arrive = String.valueOf(xPoint)+String.valueOf(yPoint);
-                    if(visited.size()==0){
-                        visited.put(depart+arrive,1);
-                    } else if(!visited.containsKey(depart+arrive) && !visited.containsKey(arrive+depart)){
-                      visited.put(depart+arrive,1);
-                  }
+            for(int i = 0; i<num;i++){
+                int first = queue.poll();
+                int second = queue.poll();
 
-
-                }
-
-            }else if(dirs.charAt(i)=='R'){
-                if(xPoint!=10){
-                    String depart = String.valueOf(xPoint)+String.valueOf(yPoint);
-                    xPoint++;
-                    String arrive = String.valueOf(xPoint)+String.valueOf(yPoint);
-                    if(visited.size()==0){
-                        visited.put(depart+arrive,1);
-                    } else if(!visited.containsKey(depart+arrive) && !visited.containsKey(arrive+depart)){
-                        visited.put(depart+arrive,1);
-                    }
-                }
-
-            }else{
-                if(xPoint!=0){
-                    String depart = String.valueOf(xPoint)+String.valueOf(yPoint);
-                    xPoint--;
-                    String arrive = String.valueOf(xPoint)+String.valueOf(yPoint);
-                    if(visited.size()==0){
-                        visited.put(depart+arrive,1);
-                    } else if(!visited.containsKey(depart+arrive) && !visited.containsKey(arrive+depart)){
-                        visited.put(depart+arrive,1);
+                if(first==a && second==b || first==b && second ==a){
+                    check = true;
+                }else{
+                    if(second==a || second==b){
+                        queue.add(second);
+                    }else{
+                        queue.add(first);
                     }
                 }
             }
+            num = num/2;
+
+            answer++;
         }
-
-
-        return visited.size();
+        return answer;
     }
 
 
 
-
     public static void main(String []  args){
-        System.out.println(new Solution().solution("ULURRDLLU"));
-        HashMap<String,Integer> visited = new HashMap<>();
-        visited.put("gd",1);
-        if(visited.containsKey("gd")){
-            System.out.println("gdgd");
-        }
+            Solution solution = new Solution();
+            System.out.println(solution.solution(8,1,2));
     }
 }
