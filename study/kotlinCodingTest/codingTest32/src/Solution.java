@@ -1,47 +1,38 @@
-import java.util.LinkedList;
+class Solution {
+    Boolean [] visited ;
+    int num;
+    int [][] dungeonsArray;
+    public int solution(int k, int[][] dungeons) {
 
-class Solution
-{
-    public int solution(int n, int a, int b)
-    {
-        int answer = 0;
-        Boolean check = false;
-        int num = n/2;
-        // [실행] 버튼을 누르면 출력 값을 볼 수 있습니다.
-
-        LinkedList<Integer> queue = new LinkedList<>();
-
-        for(int i = 1 ; i<=n ; i++){
-            queue.add(i);
+        dungeonsArray = dungeons;
+        visited = new Boolean[dungeons.length];
+        for(int i = 0; i <dungeons.length ; i++){
+            visited[i] = false;
         }
-
-        while (!check){
-
-            for(int i = 0; i<num;i++){
-                int first = queue.poll();
-                int second = queue.poll();
-
-                if(first==a && second==b || first==b && second ==a){
-                    check = true;
-                }else{
-                    if(second==a || second==b){
-                        queue.add(second);
-                    }else{
-                        queue.add(first);
-                    }
-                }
-            }
-            num = num/2;
-
-            answer++;
-        }
-        return answer;
+        search(0,k);
+        return num;
     }
 
+    public void search(int count,int size){
+        
+        for(int i = 0; i<dungeonsArray.length ; i++){
+            int temp = size;
+            if(temp>=dungeonsArray[i][0] && !visited[i]){
+                temp -=dungeonsArray[i][1];
 
+                visited[i]=true;
+                search(count+1,temp);
+                visited[i]=false;
+
+            }
+
+        }
+        num = Math.max(num,count);
+
+    }
 
     public static void main(String []  args){
-            Solution solution = new Solution();
-            System.out.println(solution.solution(8,1,2));
+    Solution solution = new Solution();
+        System.out.println(solution.solution(80,new int[][]{{80,20},{50,40},{30,10},{10,10}}));
     }
 }
