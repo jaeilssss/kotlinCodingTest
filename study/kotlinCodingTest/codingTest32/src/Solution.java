@@ -1,38 +1,45 @@
+import java.util.Scanner;
+
 class Solution {
-    Boolean [] visited ;
-    int num;
-    int [][] dungeonsArray;
-    public int solution(int k, int[][] dungeons) {
-
-        dungeonsArray = dungeons;
-        visited = new Boolean[dungeons.length];
-        for(int i = 0; i <dungeons.length ; i++){
-            visited[i] = false;
-        }
-        search(0,k);
-        return num;
-    }
-
-    public void search(int count,int size){
-        
-        for(int i = 0; i<dungeonsArray.length ; i++){
-            int temp = size;
-            if(temp>=dungeonsArray[i][0] && !visited[i]){
-                temp -=dungeonsArray[i][1];
-
-                visited[i]=true;
-                search(count+1,temp);
-                visited[i]=false;
-
-            }
-
-        }
-        num = Math.max(num,count);
-
-    }
 
     public static void main(String []  args){
-    Solution solution = new Solution();
-        System.out.println(solution.solution(80,new int[][]{{80,20},{50,40},{30,10},{10,10}}));
+
+        Scanner scanner = new Scanner(System.in);
+        boolean check = false;
+
+        int num = scanner.nextInt();
+        String []str = new String[num];
+        for(int  i = 0 ; i<num ; i++){
+            str[i] = scanner.next();
+        }
+        int index = str[0].length()-1;
+
+        while (!check){
+
+
+        for(int i = 0; i<num;i++){
+            String temp = str[i].substring(index,str[0].length());
+
+            for(int  j = 0 ; j<num; j++){
+                if(i!=j){
+                    if(temp.equals(str[j].substring(index,str[0].length()))){
+                        check = true;
+                        break;
+                    }
+                }
+
+            }
+        }
+
+        if(check){
+            check= false;
+            index--;
+        }else{
+            System.out.println(str[0].length()-index);
+            break;
+        }
     }
+    }
+
 }
+
