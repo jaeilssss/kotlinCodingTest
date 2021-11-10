@@ -1,45 +1,48 @@
-import java.util.Scanner;
+import sun.lwawt.macosx.CSystemTray;
+
+import java.util.Comparator;
 
 class Solution {
+    public long[] solution(long[] numbers) {
+        long[] answer = new long[numbers.length];
 
-    public static void main(String []  args){
+        for(int i = 0 ; i<numbers.length ; i++){
+          String binary =  Long.toBinaryString(numbers[i]);
+                if(numbers[i]%2==0){
+                    answer[i] = numbers[i]+1;
+                }else{
+                    int lastIndex = binary.lastIndexOf("0");
+                    int firstIndex = binary.indexOf("1",lastIndex);
 
-        Scanner scanner = new Scanner(System.in);
-        boolean check = false;
+                    // 0이 없는경우
+                    if(lastIndex==-1){
+                        binary = Long.toBinaryString(numbers[i]+1);
+                        binary = binary.substring(0,2)
+                                +binary.substring(2,binary.length()).replace("0","1");
 
-        int num = scanner.nextInt();
-        String []str = new String[num];
-        for(int  i = 0 ; i<num ; i++){
-            str[i] = scanner.next();
-        }
-        int index = str[0].length()-1;
-
-        while (!check){
-
-
-        for(int i = 0; i<num;i++){
-            String temp = str[i].substring(index,str[0].length());
-
-            for(int  j = 0 ; j<num; j++){
-                if(i!=j){
-                    if(temp.equals(str[j].substring(index,str[0].length()))){
-                        check = true;
-                        break;
+                    }else{
+                        binary = binary.substring(0,lastIndex)
+                                +"1"
+                                +binary.substring(lastIndex+1,firstIndex)
+                                +"0"
+                                +binary.substring(firstIndex+1,binary.length());
                     }
+
+                    answer[i]=Long.parseLong(binary,2);
                 }
 
             }
-        }
 
-        if(check){
-            check= false;
-            index--;
-        }else{
-            System.out.println(str[0].length()-index);
-            break;
-        }
-    }
+        return answer;
     }
 
+    public static void main(String [] args){
+        Solution solution = new Solution();
+
+        long [] data = solution.solution(new long[]{2,7});
+
+        for(int i=0; i<data.length ; i++){
+            System.out.println(data[i]);
+        }
+    }
 }
-
