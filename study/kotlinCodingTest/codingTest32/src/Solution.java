@@ -1,48 +1,60 @@
-import sun.lwawt.macosx.CSystemTray;
-
-import java.util.Comparator;
-
+import java.util.ArrayList;
+import java.util.Stack;
 class Solution {
-    public long[] solution(long[] numbers) {
-        long[] answer = new long[numbers.length];
+    int answer = 0;
+    public int solution(String s) {
 
-        for(int i = 0 ; i<numbers.length ; i++){
-          String binary =  Long.toBinaryString(numbers[i]);
-                if(numbers[i]%2==0){
-                    answer[i] = numbers[i]+1;
-                }else{
-                    int lastIndex = binary.lastIndexOf("0");
-                    int firstIndex = binary.indexOf("1",lastIndex);
 
-                    // 0이 없는경우
-                    if(lastIndex==-1){
-                        binary = Long.toBinaryString(numbers[i]+1);
-                        binary = binary.substring(0,2)
-                                +binary.substring(2,binary.length()).replace("0","1");
-
-                    }else{
-                        binary = binary.substring(0,lastIndex)
-                                +"1"
-                                +binary.substring(lastIndex+1,firstIndex)
-                                +"0"
-                                +binary.substring(firstIndex+1,binary.length());
-                    }
-
-                    answer[i]=Long.parseLong(binary,2);
-                }
-
-            }
-
+        char [] charArray  = s.toCharArray();
+        ArrayList<Character> arrayList = new ArrayList<>();
+        for(int  i = 0 ;i<charArray.length ;i++){
+            arrayList.add(charArray[i]);
+        }
+        check(arrayList);
+        for(int i = 0 ; i<charArray.length ; i++){
+            char temp = arrayList.get(0);
+            arrayList.remove(0);
+            arrayList.add(temp);
+            check(arrayList);
+        }
         return answer;
     }
 
-    public static void main(String [] args){
-        Solution solution = new Solution();
+    public void check(ArrayList<Character>  list){
 
-        long [] data = solution.solution(new long[]{2,7});
-
-        for(int i=0; i<data.length ; i++){
-            System.out.println(data[i]);
+        Stack<Character> stack = new Stack<>();
+        int count =0;
+        for(int i = list.size()-1; i>=0 ; i--){
+            if(stack.isEmpty()){
+                stack.push(list.get(i));
+            }else{
+                if(list.get(i)=='(' && stack.peek()==')'){
+                    stack.pop();
+                    if(stack.isEmpty()){
+                        count++;
+                    }
+                }else if(list.get(i)=='['&& stack.peek()==']'){
+                    stack.pop();
+                    if(stack.isEmpty()){
+                        count++;
+                    }
+                }else if(list.get(i)=='{' && stack.peek()=='}'){
+                    stack.pop();
+                    if(stack.isEmpty()){
+                        count++;
+                    }
+                }else{
+                    stack.add(list.get(i));
+                }
+            }
         }
+
+            if(stack.isEmpty()){
+                answer = count;
+            }
+    }
+
+    public static void main(String [] args){
+        System.out.println(new Solution().solution("[](){}"));
     }
 }
