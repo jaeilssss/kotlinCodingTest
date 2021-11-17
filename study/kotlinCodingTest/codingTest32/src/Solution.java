@@ -1,60 +1,46 @@
-import java.util.ArrayList;
-import java.util.Stack;
+
 class Solution {
-    int answer = 0;
-    public int solution(String s) {
-
-
-        char [] charArray  = s.toCharArray();
-        ArrayList<Character> arrayList = new ArrayList<>();
-        for(int  i = 0 ;i<charArray.length ;i++){
-            arrayList.add(charArray[i]);
+    public String solution(int n, int t, int m, int p) {
+        StringBuffer answer = new StringBuffer();
+        int num=1;
+        int count=0;
+        int index =1;
+        StringBuffer str = new StringBuffer();
+        str.append("0");
+        while (str.toString().length()<t*m){
+            String temp = conversion(num++,n);
+            str.append(temp);
         }
-        check(arrayList);
-        for(int i = 0 ; i<charArray.length ; i++){
-            char temp = arrayList.get(0);
-            arrayList.remove(0);
-            arrayList.add(temp);
-            check(arrayList);
+        String result= str.toString();
+
+        while(count<t){
+           index= (m*count)+p-1;
+            answer.append(result.charAt(index));
+            count++;
         }
-        return answer;
+        return answer.toString();
     }
 
-    public void check(ArrayList<Character>  list){
+    public  String conversion(int number, int N){
+        StringBuilder sb = new StringBuilder();
+        int current = number;
 
-        Stack<Character> stack = new Stack<>();
-        int count =0;
-        for(int i = list.size()-1; i>=0 ; i--){
-            if(stack.isEmpty()){
-                stack.push(list.get(i));
-            }else{
-                if(list.get(i)=='(' && stack.peek()==')'){
-                    stack.pop();
-                    if(stack.isEmpty()){
-                        count++;
-                    }
-                }else if(list.get(i)=='['&& stack.peek()==']'){
-                    stack.pop();
-                    if(stack.isEmpty()){
-                        count++;
-                    }
-                }else if(list.get(i)=='{' && stack.peek()=='}'){
-                    stack.pop();
-                    if(stack.isEmpty()){
-                        count++;
-                    }
-                }else{
-                    stack.add(list.get(i));
-                }
+
+        while(current > 0){
+
+            if(current % N < 10){
+                sb.append(current % N);
+
+            } else {
+                sb.append((char)(current % N - 10 + 'A'));
             }
+            current /= N;
         }
+            return sb.reverse().toString();
 
-            if(stack.isEmpty()){
-                answer = count;
-            }
     }
 
     public static void main(String [] args){
-        System.out.println(new Solution().solution("[](){}"));
+        System.out.println(new Solution().solution(2,4,2,1));
     }
 }
