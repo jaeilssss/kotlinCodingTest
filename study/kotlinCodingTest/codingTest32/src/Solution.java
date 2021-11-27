@@ -1,25 +1,34 @@
+import java.util.Scanner;
 
-import java.util.Arrays;
-
-class Solution {
-
-    public int solution(int[] citations) {
-        int answer = 0;
-
-        Arrays.sort(citations);
-
-        for(int i = 0; i < citations.length; i++) {
-            if(citations[i] >= citations.length - i) {
-                answer = citations.length - i;
-                break;
-            }
-        }
-
-        return answer;
-    }
+public class Solution {
 
 public static void main(String [] args){
-        System.out.println(new Solution().solution(new int[]{25,8,5,3,3}));
+    Scanner scanner = new Scanner(System.in);
+    int size = scanner.nextInt();
+    int [] arr = new int[size];
+    int [] answer = new int[size];
+    boolean [] visited = new boolean[size];
+    for(int i =0 ; i<size; i++){
+        arr[i]=scanner.nextInt();
+    }
+    for(int  i =0 ; i<size ; i++){
+        int num = arr[i];
+        int cnt=0;
+       for(int j = 0 ; j<size ; j++){
+           if(!visited[j]){
+               if(cnt==num){
+                   visited[j] = true;
+                   answer[j]=i+1;
+                   break;
+               }
+               cnt++;
+           }
+       }
+    }
+
+    for(int i = 0 ; i<size;i++){
+        System.out.print(answer[i]+" ");
+    }
 }
 
 }
