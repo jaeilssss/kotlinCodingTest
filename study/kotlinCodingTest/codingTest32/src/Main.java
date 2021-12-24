@@ -1,3 +1,5 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -5,30 +7,32 @@ public class Main {
 
     public static void main(String [] args){
 
+        int answer = 0;
+
         Scanner scanner = new Scanner(System.in);
-        int count=0;
 
         int n = scanner.nextInt();
-        int m = scanner.nextInt();
+        int length = scanner.nextInt();
+        int count = n;
+        char [] array = scanner.next().toCharArray();
 
-        ArrayList <String> slist = new ArrayList<>();
-        ArrayList <String> list = new ArrayList<>();
+        for(int i = 1; i<length-1; i++){
 
-        for(int i=0;i<n;i++){
-            String temp = scanner.next();
-            slist.add(temp);
-        }
-
-        for(int i = 0; i<m;i++){
-            String temp = scanner.next();
-            list.add(temp);
-        }
-        for(int  i= 0 ; i<list.size() ; i++){
-            if(slist.contains(list.get(i))){
-                count++;
+            if(array[i-1]=='I' && array[i]=='O' && array[i+1]=='I'){
+                count--;
+                if(count==0){
+                    answer++;
+                    count++;
+                }
+                i++;
+            }else{
+                count=n;
             }
+
         }
 
-        System.out.println(count);
+
+        System.out.println(answer);
+
     }
 }
