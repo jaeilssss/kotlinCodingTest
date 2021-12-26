@@ -1,50 +1,51 @@
+import sun.jvm.hotspot.code.ScopeValue;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Scanner;
 
 public class Main {
 
-   static boolean[] visited ;
+    static int [][] arr ;
     static int n;
-    static int m;
-   static int answer = 0;
-   static HashMap<Integer,Integer> map;
-    static int [][] graph;
     public static void main(String [] args){
-
         Scanner scanner = new Scanner(System.in);
 
+
         n = scanner.nextInt();
-        m = scanner.nextInt();
-        map = new HashMap<>();
-        graph = new int[n][n];
-        visited = new boolean[n];
+        int answer=1;
+        arr = new int[n][2];
 
-        for(int i = 0 ; i<m;i++){
-            int nod1 = scanner.nextInt();
-            int nod2 = scanner.nextInt();
+        for(int i= 0 ; i<n;i++){
+            int start = scanner.nextInt();
+            int end = scanner.nextInt();
 
-            graph[nod1-1][nod2-1]=1;
-            graph[nod2-1][nod1-1]=1;
-
+            arr[i][0]=start;
+            arr[i][1]=end;
         }
-        dfs(0,0);
 
-        System.out.println(map.keySet().size());
+        Arrays.sort(arr, new Comparator<int[]>() {
 
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                if(o1[1]==o2[1]){
+                    return o1[0] - o2[0];
+                }
+                return o1[1]-o2[1];
+            }
+        });
+
+     int index = 0;
+    for(int i =1; i<n;i++){
+        if(arr[index][1]<=arr[i][0]){
+            answer++;
+            index=i;
+        }
     }
 
-
-    public static void dfs(int depth , int nod){
-        if(depth>=2) { return; }
-        visited[nod] =true;
-        for(int  i = 1; i<n;i++){
-            if(graph[nod][i]==1){
-                    dfs(depth+1,i);
-                    map.put(i,i);
-            }
-        }
+    System.out.println(answer);
     }
 }
