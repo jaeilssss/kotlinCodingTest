@@ -1,51 +1,82 @@
+import com.sun.org.apache.xerces.internal.xs.StringList;
 import sun.jvm.hotspot.code.ScopeValue;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
 
-    static int [][] arr ;
-    static int n;
+
+
+
+    public static class Info implements Comparable<Info>{
+        int count;
+        int index;
+        int num;
+
+        public Info(int count, int index, int num) {
+            this.count = count;
+            this.index = index;
+            this.num = num;
+        }
+
+        @Override
+        public int compareTo(Info o) {
+            if(this.count==o.count){
+                return this.index-o.index;
+            }
+            return this.count-o.count;
+        }
+    }
     public static void main(String [] args){
         Scanner scanner = new Scanner(System.in);
 
-
-        n = scanner.nextInt();
-        int answer=1;
-        arr = new int[n][2];
-
-        for(int i= 0 ; i<n;i++){
-            int start = scanner.nextInt();
-            int end = scanner.nextInt();
-
-            arr[i][0]=start;
-            arr[i][1]=end;
-        }
-
-        Arrays.sort(arr, new Comparator<int[]>() {
-
-            @Override
-            public int compare(int[] o1, int[] o2) {
-                if(o1[1]==o2[1]){
-                    return o1[0] - o2[0];
+        int n = scanner.nextInt();
+        int m = scanner.nextInt();
+        ArrayList<Info> list = new ArrayList<>();
+        ArrayList<Integer> answer = new ArrayList<>();
+        for(int  i = 0 ;i<m; i++){
+            int num = scanner.nextInt();
+            boolean flag = false;
+            if(list.size()!=n){
+                for(int j= 0 ; j<list.size() ; j++){
+                    if(list.get(j).num==num) {
+                        list.get(j).count++;
+                        flag=true;
+                        break;
+                    }
                 }
-                return o1[1]-o2[1];
+                if(!flag){
+                    list.add(new Info(1,i,num));
+                }
+
+            }else{
+                for(int j= 0 ; j<list.size() ; j++){
+                    if(list.get(j).num==num) {
+                        list.get(j).count++;
+                        flag=true;
+                        break;
+                    }
+                }
+                if(!flag){
+                    Collections.sort(list);
+
+                    list.remove(0);
+                    list.add(new Info(1,i,num));
+                }
             }
-        });
-
-     int index = 0;
-    for(int i =1; i<n;i++){
-        if(arr[index][1]<=arr[i][0]){
-            answer++;
-            index=i;
         }
+
+        StringBuilder sb = new StringBuilder();
+        for(int  i=0; i<list.size() ; i++){
+            answer.add(list.get(i).num);
+        }
+        Collections.sort(answer);
+        for(int i = 0 ; i<answer.size();i++){
+            sb.append(answer.get(i)+" ");
+        }
+        System.out.println(sb.toString());
     }
 
-    System.out.println(answer);
-    }
 }
