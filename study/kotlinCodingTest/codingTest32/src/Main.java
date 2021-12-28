@@ -1,82 +1,91 @@
-import com.sun.org.apache.xerces.internal.xs.StringList;
-import sun.jvm.hotspot.code.ScopeValue;
+import sun.security.jgss.GSSCaller;
 
 import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.*;
+import java.io.IOException;
+import java.util.Scanner;
+
 
 public class Main {
 
+    private static int K;
+    private static int N;
+    private static int[][] array;
+    private static boolean[] robot;
+
+    public static void main(String[] args) {
 
 
-
-    public static class Info implements Comparable<Info>{
-        int count;
-        int index;
-        int num;
-
-        public Info(int count, int index, int num) {
-            this.count = count;
-            this.index = index;
-            this.num = num;
-        }
-
-        @Override
-        public int compareTo(Info o) {
-            if(this.count==o.count){
-                return this.index-o.index;
-            }
-            return this.count-o.count;
-        }
-    }
-    public static void main(String [] args){
         Scanner scanner = new Scanner(System.in);
 
-        int n = scanner.nextInt();
-        int m = scanner.nextInt();
-        ArrayList<Info> list = new ArrayList<>();
-        ArrayList<Integer> answer = new ArrayList<>();
-        for(int  i = 0 ;i<m; i++){
-            int num = scanner.nextInt();
+        N = scanner.nextInt();
+        K = scanner.nextInt();
+        int count=1;
+        int zeroCount=0;
+        robot = new boolean[N];
+        array = new int[N*2][2];
+
+        for(int i = 0 ; i<N*2; i++){
+            array[i][0]= scanner.nextInt();
+        }
+
+        while (true){
             boolean flag = false;
-            if(list.size()!=n){
-                for(int j= 0 ; j<list.size() ; j++){
-                    if(list.get(j).num==num) {
-                        list.get(j).count++;
-                        flag=true;
-                        break;
-                    }
-                }
-                if(!flag){
-                    list.add(new Info(1,i,num));
-                }
+             zeroCount = 0;
 
-            }else{
-                for(int j= 0 ; j<list.size() ; j++){
-                    if(list.get(j).num==num) {
-                        list.get(j).count++;
-                        flag=true;
-                        break;
-                    }
-                }
-                if(!flag){
-                    Collections.sort(list);
 
-                    list.remove(0);
-                    list.add(new Info(1,i,num));
+            for(int i = 0 ; i<N*2;i++){
+                if(i==N*2-1){
+                    array[0][1]=array[i][0];
+                }else{
+                    array[i+1][1] = array[i][0];
+
                 }
             }
-        }
+            for(int i =N-1 ; i>=0;i--){
+                    if(i==N-1) {
+                        robot[i]=false;
+                    } else if(robot[i]){
+                        robot[i+1]=true;
+                        robot[i]=false;
+                    }
 
-        StringBuilder sb = new StringBuilder();
-        for(int  i=0; i<list.size() ; i++){
-            answer.add(list.get(i).num);
+            }
+            for(int i= 0 ; i<N*2;i++){
+                array[i][0] = array[i][1];
+            }
+
+
+
+            for(int i =N-1 ; i>=0;i--){
+                if(i==N-1){
+                    robot[i]=false;
+                }else{
+                    if(robot[i] && array[i+1][0]!=0&& !robot[i + 1]){
+                        robot[i] =false;
+                        robot[i+1] = true;
+                        array[i+1][0]--;
+                    }
+                }
+            }
+
+            if(array[0][0]!=0){
+                array[0][0]--;
+                robot[0]=true;
+            }
+
+            for(int  i = 0 ; i<array.length ; i++){
+                if(array[i][0]==0){
+                    zeroCount++;
+                    if(zeroCount>=K) flag =true;
+                }
+            }
+
+            if(flag) break;
+            count++;
+
+
         }
-        Collections.sort(answer);
-        for(int i = 0 ; i<answer.size();i++){
-            sb.append(answer.get(i)+" ");
-        }
-        System.out.println(sb.toString());
+        System.out.println(count);
+
     }
-
 }
