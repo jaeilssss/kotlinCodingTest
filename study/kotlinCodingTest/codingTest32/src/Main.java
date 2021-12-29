@@ -1,91 +1,95 @@
-import sun.security.jgss.GSSCaller;
-
-import java.io.BufferedReader;
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 
 public class Main {
 
-    private static int K;
-    private static int N;
-    private static int[][] array;
-    private static boolean[] robot;
+
 
     public static void main(String[] args) {
 
-
         Scanner scanner = new Scanner(System.in);
+        int width =  scanner.nextInt();
+        int height = scanner.nextInt();
+        int myPoint;
+        int myDirection;
+        int n=scanner.nextInt();
+        int answer=0;
+        ArrayList<Integer>[] list = new ArrayList[4];
 
-        N = scanner.nextInt();
-        K = scanner.nextInt();
-        int count=1;
-        int zeroCount=0;
-        robot = new boolean[N];
-        array = new int[N*2][2];
-
-        for(int i = 0 ; i<N*2; i++){
-            array[i][0]= scanner.nextInt();
+        for(int  i = 0 ; i<4;i++){
+            list[i]= new ArrayList<Integer>();
         }
 
-        while (true){
-            boolean flag = false;
-             zeroCount = 0;
+        for(int  i = 0 ; i<n;i++){
+            int tempDirection = scanner.nextInt();
+            int tempPoint = scanner.nextInt();
 
-
-            for(int i = 0 ; i<N*2;i++){
-                if(i==N*2-1){
-                    array[0][1]=array[i][0];
-                }else{
-                    array[i+1][1] = array[i][0];
-
-                }
-            }
-            for(int i =N-1 ; i>=0;i--){
-                    if(i==N-1) {
-                        robot[i]=false;
-                    } else if(robot[i]){
-                        robot[i+1]=true;
-                        robot[i]=false;
-                    }
-
-            }
-            for(int i= 0 ; i<N*2;i++){
-                array[i][0] = array[i][1];
-            }
-
-
-
-            for(int i =N-1 ; i>=0;i--){
-                if(i==N-1){
-                    robot[i]=false;
-                }else{
-                    if(robot[i] && array[i+1][0]!=0&& !robot[i + 1]){
-                        robot[i] =false;
-                        robot[i+1] = true;
-                        array[i+1][0]--;
-                    }
-                }
-            }
-
-            if(array[0][0]!=0){
-                array[0][0]--;
-                robot[0]=true;
-            }
-
-            for(int  i = 0 ; i<array.length ; i++){
-                if(array[i][0]==0){
-                    zeroCount++;
-                    if(zeroCount>=K) flag =true;
-                }
-            }
-
-            if(flag) break;
-            count++;
-
-
+            list[tempDirection-1].add(tempPoint);
         }
-        System.out.println(count);
+        myDirection = scanner.nextInt();
+        myDirection--;
+        myPoint = scanner.nextInt();
 
+        for(int i=0;i<4;i++){
+            for(int j =0 ; j<list[i].size();j++){
+
+
+                if(myDirection==i){
+                    answer+=Math.abs(myPoint-list[i].get(j));
+                }else{
+
+                    if(myDirection==0){
+
+                        if(i==1){
+                            int temp = (width-myPoint)+(width-list[i].get(j));
+                            int temp2 = list[i].get(j)+myPoint;
+                            answer+=Math.min(temp,temp2)+height;
+                        }else if(i==2){
+                            answer +=myPoint+list[i].get(j);
+                        }else{
+                            answer +=(width-myPoint)+list[i].get(j);
+                        }
+                    }else if(myDirection==1){
+                        if(i==0) {
+                            int temp = (width-myPoint)+(width-list[i].get(j));
+                            int temp2 = list[i].get(j)+myPoint;
+                            answer+=Math.min(temp,temp2)+height;
+                        }else if(i==2){
+                            answer += myPoint+(height-list[i].get(j));
+                        }else{
+                            answer +=(width-myPoint)+(height-list[i].get(j));
+                        }
+                    }else if(myDirection==2){
+                        if(i==0) {
+                            answer += list[i].get(j)+myPoint;
+                        }else if(i==1){
+                            answer += (height-myPoint)+list[i].get(j);
+                        }else{
+                            int temp = myPoint+list[i].get(j);
+                            int temp2 = (height-myPoint)+(height-list[i].get(j));
+
+                            answer += Math.min(temp,temp2)+width;
+                        }
+                    }else{
+                        if(i==0) {
+                            answer += list[i].get(j)+(width-myPoint);
+                        }else if(i==1){
+                            answer += (height-myPoint)+list[i].get(j);
+                        }else if(i==2){
+                            int temp = myPoint+list[i].get(j);
+                            int temp2 = (height-myPoint)+(height-list[i].get(j));
+
+                            answer += Math.min(temp,temp2)+width;
+                        }
+                    }
+
+                }
+
+
+            }
+        }
+        System.out.println(answer);
     }
 }
+
