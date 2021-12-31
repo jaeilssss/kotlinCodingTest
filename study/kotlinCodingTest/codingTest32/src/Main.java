@@ -1,95 +1,110 @@
 import java.util.ArrayList;
-import java.util.Scanner;
 
+import java.util.Queue;
+import java.util.Scanner;
+import java.util.LinkedList;
 
 public class Main {
 
 
+    static int m;
+    static int n;
+    static int [][] graph;
+    static int [][] visited;
+    static int count=0;
+    static LinkedList<Point> temp;
+    public static class Point{
+        int x;
+        int y;
 
+        public Point(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+    }
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
-        int width =  scanner.nextInt();
-        int height = scanner.nextInt();
-        int myPoint;
-        int myDirection;
-        int n=scanner.nextInt();
-        int answer=0;
-        ArrayList<Integer>[] list = new ArrayList[4];
 
-        for(int  i = 0 ; i<4;i++){
-            list[i]= new ArrayList<Integer>();
-        }
+        m = scanner.nextInt();
+        n = scanner.nextInt();
 
-        for(int  i = 0 ; i<n;i++){
-            int tempDirection = scanner.nextInt();
-            int tempPoint = scanner.nextInt();
+        graph = new int[n+2][m+2];
+        temp = new LinkedList<>();
+        boolean isZero = false;
 
-            list[tempDirection-1].add(tempPoint);
-        }
-        myDirection = scanner.nextInt();
-        myDirection--;
-        myPoint = scanner.nextInt();
+        for(int i = 0 ; i <n+2;i++){
 
-        for(int i=0;i<4;i++){
-            for(int j =0 ; j<list[i].size();j++){
-
-
-                if(myDirection==i){
-                    answer+=Math.abs(myPoint-list[i].get(j));
+            for(int j=0; j<m+2;j++){
+                if(i==0 || i==n+1 ||j==0 || j==m+1){
+                    graph[i][j]=-1;
                 }else{
-
-                    if(myDirection==0){
-
-                        if(i==1){
-                            int temp = (width-myPoint)+(width-list[i].get(j));
-                            int temp2 = list[i].get(j)+myPoint;
-                            answer+=Math.min(temp,temp2)+height;
-                        }else if(i==2){
-                            answer +=myPoint+list[i].get(j);
-                        }else{
-                            answer +=(width-myPoint)+list[i].get(j);
-                        }
-                    }else if(myDirection==1){
-                        if(i==0) {
-                            int temp = (width-myPoint)+(width-list[i].get(j));
-                            int temp2 = list[i].get(j)+myPoint;
-                            answer+=Math.min(temp,temp2)+height;
-                        }else if(i==2){
-                            answer += myPoint+(height-list[i].get(j));
-                        }else{
-                            answer +=(width-myPoint)+(height-list[i].get(j));
-                        }
-                    }else if(myDirection==2){
-                        if(i==0) {
-                            answer += list[i].get(j)+myPoint;
-                        }else if(i==1){
-                            answer += (height-myPoint)+list[i].get(j);
-                        }else{
-                            int temp = myPoint+list[i].get(j);
-                            int temp2 = (height-myPoint)+(height-list[i].get(j));
-
-                            answer += Math.min(temp,temp2)+width;
-                        }
-                    }else{
-                        if(i==0) {
-                            answer += list[i].get(j)+(width-myPoint);
-                        }else if(i==1){
-                            answer += (height-myPoint)+list[i].get(j);
-                        }else if(i==2){
-                            int temp = myPoint+list[i].get(j);
-                            int temp2 = (height-myPoint)+(height-list[i].get(j));
-
-                            answer += Math.min(temp,temp2)+width;
-                        }
+                    int num = scanner.nextInt();
+                    graph[i][j] = num;
+                    if(num==1){
+                        temp.add(new Point(i,j));
                     }
-
+                    if(num==0){
+                        isZero=true;
+                    }
                 }
-
 
             }
         }
-        System.out.println(answer);
+
+        if(!isZero){
+            System.out.println(0);
+        }else{
+
+            while (temp.size()!=0){
+
+               temp =  bfs();
+                count++;
+            }
+            isZero=false;
+            for(int  i = 0 ; i<n+2; i++){
+                for(int  j = 0 ;j<m+2 ; j++){
+                    if(graph[i][j]==0){
+                        isZero=true;
+                        break;
+                    }
+                }
+            }
+            if(isZero){
+                System.out.println(-1);
+            }else{
+                System.out.println(count-1);
+            }
+        }
+
+
+
+
+    }
+
+    public static LinkedList<Point> bfs(){
+        LinkedList<Point> queue = new LinkedList<>();
+        while (temp.size()!=0){
+            Point point = temp.poll();
+            if(graph[point.x][point.y+1]==0){
+                graph[point.x][point.y+1]=1;
+                queue.add(new Point(point.x,point.y+1));
+            }
+            if(graph[point.x+1][point.y]==0){
+                graph[point.x+1][point.y]=1;
+                queue.add(new Point(point.x+1,point.y));
+            }
+            if(graph[point.x-1][point.y]==0){
+                graph[point.x-1][point.y]=1;
+                queue.add(new Point(point.x-1,point.y));
+            }
+            if(graph[point.x][point.y-1]==0){
+                graph[point.x][point.y-1]=1;
+                queue.add(new Point(point.x,point.y-1));
+            }
+
+        }
+        return queue;
     }
 }
 
