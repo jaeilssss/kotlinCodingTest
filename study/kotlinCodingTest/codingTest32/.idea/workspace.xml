@@ -34,7 +34,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager" selected="Application.Solution">
     <configuration name="Main" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="codingTest32" />
@@ -58,8 +58,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Main2" />
         <item itemvalue="Application.Solution" />
+        <item itemvalue="Application.Main2" />
       </list>
     </recent_temporary>
   </component>
@@ -83,9 +83,12 @@
           <url>file://$PROJECT_DIR$/src/Solution.java</url>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
+        <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/Solution.java</url>
-          <line>73</line>
+          <line>72</line>
+          <properties class="Solution">
+            <option name="EMULATED" value="true" />
+          </properties>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>
