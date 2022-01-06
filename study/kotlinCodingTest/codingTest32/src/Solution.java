@@ -39,6 +39,7 @@ class Solution {
             array[5] = str.toCharArray();
 
             array[6] = new char[]{'X', 'X', 'X', 'X', 'X','X','X'};
+
             for (int j = 1; j < 6; j++) {
                 if (array[j][1] == 'P') list.add(new Person(j, 1));
                 if (array[j][2] == 'P') list.add(new Person(j, 2));
