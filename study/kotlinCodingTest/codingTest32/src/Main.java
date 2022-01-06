@@ -1,51 +1,46 @@
 import com.sun.scenario.effect.impl.sw.java.JSWColorAdjustPeer;
+import sun.security.util.Password;
 
 import javax.swing.text.Style;
-import java.io.*;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Scanner;
-
+import java.io.*;
 public class Main {
+    static String S;
+    static String T;
+    public static void main(String [] args) throws IOException {
 
-    public static void main(String [] args){
         Scanner scanner = new Scanner(System.in);
+        S = scanner.next();
+        T = scanner.next();
 
-        String str = scanner.next();
-        String temp="";
-        for(int  i = str.length()-1;i>=0;i--){
-            temp +=str.substring(i,i+1);
-        }
-        if(temp.equals(str)){
-            System.out.println(temp.length());
-            return;
-        }
-        int min=1000;
-        for(int  i = str.length()-2 ; i>=0; i--){
-             temp = str;
-            for(int j = i; j>=0;j--){
-                temp+=str.substring(j,j+1);
-            }
-            boolean result = check(temp);
-            if(result){
-                min = Math.min(min,temp.length());
-            }
-        }
-
-        System.out.println(min);
-    }
-
-    public static boolean check(String str){
-        String temp = "";
-        for(int j = str.length()-1 ; j>=0;j--){
-            temp +=str.substring(j,j+1);
-        }
-
-        if(str.equals(temp)){
-            return true;
+        if(fx(S,T)){
+            System.out.println(1);
         }else{
-            return false;
+            System.out.println(0);
         }
     }
+
+    public static boolean fx(String s , String t){
+        boolean check =false;
+        if(s.length()==t.length()){
+            return s.equals(t);
+        }
+
+        if(t.charAt(t.length()-1)=='A' ){
+           check =  fx(s,t.substring(0,t.length()-1));
+        }
+
+        if(t.charAt(0)=='B' && !check){
+            StringBuilder sb = new StringBuilder(t.substring(1,t.length()));
+            sb.reverse();
+
+            check = fx(s,sb.toString());
+        }
+        return check;
+    }
+
 }
