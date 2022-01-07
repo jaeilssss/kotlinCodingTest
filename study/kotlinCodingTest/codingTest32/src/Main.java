@@ -3,9 +3,10 @@ import sun.security.util.Password;
 
 import javax.swing.text.Style;
 
-import java.util.ArrayList;
+
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.*;
 public class Main {
@@ -14,33 +15,51 @@ public class Main {
     public static void main(String [] args) throws IOException {
 
         Scanner scanner = new Scanner(System.in);
-        S = scanner.next();
-        T = scanner.next();
+        String str = scanner.nextLine();
+        ArrayList<String> list = new ArrayList<>();
+        String temp="";
+        boolean isTag= false;
+        for(int i = 0 ; i<str.length();i++){
 
-        if(fx(S,T)){
-            System.out.println(1);
-        }else{
-            System.out.println(0);
+            if(str.substring(i, i + 1).equals("<")){
+                if(temp.length()!=0){
+                    StringBuilder sb = new StringBuilder(temp);
+                    sb.reverse();
+                    list.add(sb.toString());
+                    temp =str.substring(i,i+1);
+                    isTag = true;
+                }else{
+                    temp +=str.substring(i,i+1);
+                    isTag = true;
+                }
+            } else if(str.substring(i, i + 1).equals(">")){
+                temp +=str.substring(i,i+1);
+                list.add(temp);
+                temp="";
+                isTag = false;
+            }else if(str.substring(i, i + 1).equals(" ")){
+                if(temp.length()!=0 && !isTag){
+                    StringBuilder sb = new StringBuilder(temp);
+                    sb.reverse();
+                    list.add(sb.toString());
+                    list.add(" ");
+                    temp="";
+                }else{
+                    temp +=str.substring(i,i+1);
+                }
+            }else{
+                temp +=str.substring(i,i+1);
+            }
         }
-    }
-
-    public static boolean fx(String s , String t){
-        boolean check =false;
-        if(s.length()==t.length()){
-            return s.equals(t);
-        }
-
-        if(t.charAt(t.length()-1)=='A' ){
-           check =  fx(s,t.substring(0,t.length()-1));
-        }
-
-        if(t.charAt(0)=='B' && !check){
-            StringBuilder sb = new StringBuilder(t.substring(1,t.length()));
+        if(temp.length()!=0) {
+            StringBuilder sb = new StringBuilder(temp);
             sb.reverse();
-
-            check = fx(s,sb.toString());
+            list.add(sb.toString());
         }
-        return check;
+        for(int i = 0; i<list.size();i++){
+            System.out.print(list.get(i));
+        }
     }
+
 
 }
