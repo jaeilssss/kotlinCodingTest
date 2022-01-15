@@ -81,8 +81,8 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/Main.java</url>
-          <line>28</line>
-          <properties class="Main" method="main">
+          <line>10</line>
+          <properties class="Main">
             <option name="EMULATED" value="true" />
           </properties>
           <option name="timeStamp" value="1" />

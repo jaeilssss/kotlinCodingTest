@@ -10,76 +10,58 @@ import java.io.*;
 import java.util.*;
 public class Main {
 
-    static class Node{
-        int num;
-        int cost;
-
-        public Node(int num, int cost) {
-            this.num = num;
-            this.cost = cost;
-        }
-    }
-
-    static ArrayList<Integer>[] array;
-    static ArrayList<Boolean> visited;
-    static ArrayList<Integer> answer;
+    static int n ;
+    static ArrayList<Integer> [] graph;
+    static boolean [] visited;
+   static ArrayList<Integer> answer;
     public static void main(String [] args){
 
-        Scanner scanner=  new Scanner(System.in);
-        answer = new ArrayList<>();
-        int n;
-        int m;
-        int k;
-        int x;
-        n = scanner.nextInt();
-        m = scanner.nextInt();
-        k = scanner.nextInt();
-        x = scanner.nextInt();
-        array = new ArrayList[n+1];
-        visited = new ArrayList<>();
-        for(int  i = 0 ;i<n+1;i++){
-            visited.add(false);
-            array[i] = new ArrayList<>();
+        Scanner scanner = new Scanner(System.in);
+
+         n = scanner.nextInt();
+
+         graph = new ArrayList[n+1];
+        visited = new boolean[n+1];
+         answer = new ArrayList<>();
+         for(int i = 0 ; i<n+1 ; i++){
+             graph[i] = new ArrayList<>();
+         }
+         for(int i= 0 ; i<n-1;i++){
+             int node1 = scanner.nextInt();
+             int node2 = scanner.nextInt();
+
+             graph[node1].add(node2);
+             graph[node2].add(node1);
+         }
+
+         for(int i = 0 ;i<n+1 ; i++){
+             answer.add(-1);
+         }
+        dfs(1);
+        for(int  i = 2 ; i<n+1; i++){
+            System.out.println(answer.get(i));
         }
-
-        for(int  i = 0 ; i<m;i++){
-            int start = scanner.nextInt();
-            int end = scanner.nextInt();
-
-            array[start].add(end);
-        }
-
-        bfs(x,k);
-        if(answer.size()==0){
-            System.out.println(-1);
-        }else{
-            Collections.sort(answer);
-            for(int i = 0 ;i<answer.size();i++) System.out.println(answer.get(i));
-        }
-
-
     }
-    public static void bfs(int start, int k){
+
+    public static void dfs(int node){
+        visited[node] = true;
+
+        for(int  i = 0 ;i<graph[node].size();i++){
+            int num = graph[node].get(i);
+
+            if(!visited[num]&&num!=1){
+                answer.set(num,node);
+                visited[num]=true;
+
+                    dfs(num);
 
 
-        LinkedList<Node> queue = new LinkedList<>();
-        visited.set(start,true);
-        queue.add(new Node(start,0));
-        while (queue.size()!=0){
-
-            Node node= queue.poll();
-
-            if(node.cost==k){
-                answer.add(node.num);
-            }else{
-                for(int  i =0 ; i<array[node.num].size();i++){
-                    if(!visited.get(array[node.num].get(i))){
-                        queue.add(new Node(array[node.num].get(i),node.cost+1));
-                        visited.set(array[node.num].get(i),true);
-                    }
-                }
             }
 
         }
+
+
     }
+
 }
+
