@@ -10,58 +10,59 @@ import java.io.*;
 import java.util.*;
 public class Main {
 
-    static int n ;
-    static ArrayList<Integer> [] graph;
-    static boolean [] visited;
-   static ArrayList<Integer> answer;
+
+    static ArrayList<String> list ;
     public static void main(String [] args){
 
         Scanner scanner = new Scanner(System.in);
 
-         n = scanner.nextInt();
+         String str = scanner.next();
 
-         graph = new ArrayList[n+1];
-        visited = new boolean[n+1];
-         answer = new ArrayList<>();
-         for(int i = 0 ; i<n+1 ; i++){
-             graph[i] = new ArrayList<>();
-         }
-         for(int i= 0 ; i<n-1;i++){
-             int node1 = scanner.nextInt();
-             int node2 = scanner.nextInt();
+         list = new ArrayList<>();
 
-             graph[node1].add(node2);
-             graph[node2].add(node1);
+         int startIndex=0;
+        int start=0;
+         for(int i = 0 ; i<str.length() ; i++){
+
+             if(str.substring(i,i+1).equals("+")){
+                list.add(str.substring(startIndex,i));
+                list.add(str.substring(i,i+1));
+                startIndex = i+1;
+
+             }else if(str.substring(i,i+1).equals("-")){
+                 list.add(str.substring(startIndex,i));
+                 list.add(str.substring(i,i+1));
+                 startIndex = i+1;
+             }
+             if(i==str.length()-1){
+                 list.add(str.substring(startIndex,i+1));
+
+             }
          }
 
-         for(int i = 0 ;i<n+1 ; i++){
-             answer.add(-1);
+
+         while (true){
+             if(start==list.size()-1) break;
+             if(list.get(start+1).equals("+")){
+                 int num = Integer.parseInt(list.get(start))+Integer.parseInt(list.get(start+2));
+                 list.set(start,String.valueOf(num));
+                 list.remove(start+2);
+                 list.remove(start+1);
+
+             }else{
+                 start+=2;
+             }
          }
-        dfs(1);
-        for(int  i = 2 ; i<n+1; i++){
-            System.out.println(answer.get(i));
-        }
+        int sum = Integer.parseInt(list.get(0));
+         for(int  i = 2 ; i<list.size() ; i+=2){
+             sum -=Integer.parseInt(list.get(i));
+         }
+
+         System.out.println(sum);
+
     }
 
-    public static void dfs(int node){
-        visited[node] = true;
 
-        for(int  i = 0 ;i<graph[node].size();i++){
-            int num = graph[node].get(i);
-
-            if(!visited[num]&&num!=1){
-                answer.set(num,node);
-                visited[num]=true;
-
-                    dfs(num);
-
-
-            }
-
-        }
-
-
-    }
 
 }
 
