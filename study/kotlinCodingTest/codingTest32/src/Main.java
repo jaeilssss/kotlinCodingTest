@@ -1,76 +1,56 @@
-import com.sun.scenario.effect.impl.sw.java.JSWColorAdjustPeer;
-import sun.security.util.Password;
 
-import javax.swing.text.Style;
+import java.awt.image.BandedSampleModel;
+import java.util.ArrayList;
+import java.util.Scanner;
 
-
-import java.awt.*;
-
-import java.io.*;
-import java.util.*;
 public class Main {
 
-
-    public static class Node{
-        int num;
-        int cost;
-
-        public Node(int num, int cost) {
-            this.num = num;
-            this.cost = cost;
-        }
-    }
-
-
-    static ArrayList<String> list ;
-    static ArrayList<ArrayList<Node>> graph;
-    static boolean [] visited;
-    static int [] dist;
-
+   private static ArrayList<String> answer;
     public static void main(String [] args){
 
         Scanner scanner = new Scanner(System.in);
+        answer = new ArrayList<>();
+        int count = scanner.nextInt();
+        String name = scanner.next();
+        int index = name.indexOf("*");
 
-        int V = scanner.nextInt(); // 노드의 갯수
-        int E = scanner.nextByte(); // 간선의 갯수
-        int startIdx = scanner.nextInt();
-        graph=  new ArrayList<>();
-        visited = new boolean[V+1];
-        dist = new int[V+1];
-        for(int i =0; i<V+1 ; i++){
-            graph.add(new ArrayList<>());
-        }
+        boolean check = true;
 
-        for(int i =0 ; i <E ; i++){
-            int num = scanner.nextInt();
-            int num2 = scanner.nextInt();
-            int cost = scanner.nextInt();
-
-            graph.get(num).add(new Node(num2,cost));
-
-        }
-        for(int i=0; i<V+1;i++){
-            dist[i]=Integer.MAX_VALUE;
-        }
-        dist[startIdx]=0;
-
-        for(int i = 0 ; i<V;i++){
-
-            int nodeValue = Integer.MAX_VALUE;
-            int nodeIdx = 0;
-
-            for(int  j = 1 ; j<V+1;j++){
-
-                if(!visited[j] && dist[j]<nodeValue){
-
-                    
+        for(int  i =0; i<count ; i++){
+            String msg = scanner.next();
+            System.out.print(msg+" ");
+            int msgLastIndex = msg.length()-1;
+            check = true;
+            for(int j = 0 ; j<index ; j++){
+                if(msg.charAt(j)!=name.charAt(j)){
+                    answer.add("NE");
+                    System.out.println("NE");
+                    check = false;
+                    break;
                 }
+            }
+            if(check){
+                for(int j = name.length()-1 ; i>index;i--){
+                    if(name.charAt(j)!=msg.charAt(msgLastIndex)){
+                        answer.add("NE");
+                        System.out.println("NE");
+                        check = false;
+                        break;
+                    }else{
+                        msgLastIndex--;
+                    }
+                }
+            }
+
+            if(check){
+                answer.add("DA");
+                System.out.println("DA");
             }
         }
 
-
-
-
+//        for(int  i = 0 ; i<answer.size() ; i++){
+//            System.out.println(answer.get(i));
+//        }
     }
 
 
