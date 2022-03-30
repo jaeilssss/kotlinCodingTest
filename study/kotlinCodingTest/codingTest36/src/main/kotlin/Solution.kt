@@ -1,16 +1,10 @@
 class Solution {
-
-
-    fun solution(orders: Array<String>, course: IntArray): Array<String> {
-        var answer: Array<String> = arrayOf<String>()
-
+    fun solution(logs: Array<String>): Int {
+        var answer: Int = -1
         return answer
     }
 }
 
-fun main() {
+fun main(){
 
 }
-
-
-

@@ -1,31 +1,30 @@
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 fun main(){
 
-    var str = readLine()!!.split(" ").map { it.toInt() }
 
-    var array :Array<IntArray> = Array(str[0]){ IntArray(str[1]) }
-    for(i in 0 until str[0]){
-        var temp = readLine()!!.toCharArray()
-        var count = -1
-        for(j in 0 until str[1]){
-            if(temp[j].equals('.')){
-                array[i][j] = count
-                if(count!=-1){
-                    count++
-                }
-            }else if(temp[j].equals('c')){
-                count = 1
-                array[i][j]=0
-            }
+    var num = readLine()!!.toInt()
+    var map = HashMap<String,Int>()
+
+    for(i in 0 until num){
+        var name = readLine()!!.split(".")
+
+        if(map.containsKey(name[1])){
+            map.put(name[1], map.get(name[1])!!+1)
+        }else{
+            map.put(name[1],1)
         }
     }
+    var array = map.keys
+    var list = array.sorted()
 
-    for(i in 0 until str[0]){
-        for(j in 0 until str[1]){
-            print("${array[i][j]} ")
-        }
-        println()
+    for(i in 0 until list.size){
+
+        println("${list[i]} ${map.get(list[i])}")
     }
+
 
 }
 

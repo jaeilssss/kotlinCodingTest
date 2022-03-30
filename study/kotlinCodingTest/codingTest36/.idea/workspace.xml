@@ -83,8 +83,8 @@
     <recent_temporary>
       <list>
         <item itemvalue="Kotlin.MainKt" />
-        <item itemvalue="Kotlin.TestKt" />
         <item itemvalue="Kotlin.SolutionKt" />
+        <item itemvalue="Kotlin.TestKt" />
       </list>
     </recent_temporary>
   </component>
@@ -106,19 +106,15 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="kotlin-function">
           <url>file://$PROJECT_DIR$/src/main/kotlin/Solution.kt</url>
-          <line>15</line>
-          <properties class="Solution">
+          <line>7</line>
+          <properties class="Solution" method="main">
             <option name="EMULATED" value="true" />
           </properties>
-          <option name="timeStamp" value="1" />
+          <option name="timeStamp" value="8" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="kotlin-function">
-          <url>file://$PROJECT_DIR$/src/main/kotlin/main.kt</url>
-          <line>1</line>
-          <properties method="main">
-            <option name="EMULATED" value="true" />
-          </properties>
-          <option name="timeStamp" value="3" />
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/src/main/kotlin/Solution.kt</url>
+          <option name="timeStamp" value="6" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
