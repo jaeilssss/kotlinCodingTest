@@ -1,60 +1,54 @@
-import java.util.*
-import kotlin.collections.ArrayList
-
 import kotlin.math.abs
-import kotlin.math.ceil
-import kotlin.math.floor
+val bre = System.`in`.bufferedReader()
+fun main() = with(System.out.bufferedWriter()){
 
-import kotlin.time.toDuration
-import kotlin.collections.HashMap
-import kotlin.math.roundToInt
-fun main(){
+    var (n,m,b) = bre.readLine().split(" ").map { it.toInt() }
+    var block : Array<IntArray> = Array(n){ IntArray(m) }
+    var max = -1
+    var min = 257
+    var timeMin=Int.MAX_VALUE
+    var height=0
 
+    for(i in 0 until n){
+        var temp = bre.readLine().split(" ").map { it.toInt() }
 
-    var num = readLine()!!.toInt()
-
-    var array : IntArray = IntArray(num)
-    var map = HashMap<Int,Int>()
-    var sum : Double = 0.0
-    var count=-1
-    var index=-1
-
-    for(i in 0 until  num){
-        array[i] = readLine()!!.toInt()
-        map.put(array[i],map.getOrDefault(array[i],0)+1)
-        sum +=array[i]
-    }
-
-    array.sort()
-
-
-
-
-    var average = Math.round(sum / num)
-
-        println(average)
-
-
-
-    println(array[num/2])
-    var check = false
-    for(i in map.keys.sorted()){
-        if(map.get(i)!!>count){
-            count = map.get(i)!!
-            index = i
-            check = false
-        }
-        else if(map.get(i)==count && !check){
-            index = i
-            check =true
+        for(j in temp.indices){
+            block[i][j] = temp.get(j)
+            min = Math.min(min,block[i][j])
+            max = Math.max(max,block[i][j])
         }
     }
-    println(index)
-    if(array.size==1){
-        println(0)
-    }else{
-        println(array[num-1]-array[0])
+
+for(i in min until max+1){
+    var inventory = b
+    var time = 0
+
+    for(j in 0 until n){
+
+        for(a in 0 until  m){
+
+            var diff = i-block[j][a]
+
+            if(diff>0){
+                time +=diff
+                inventory -= diff
+
+            }else if(diff<0){
+                time += abs(diff)*2
+                inventory += abs(diff)
+            }
+        }
+
     }
+    if(inventory>=0){
+        if(time<=timeMin ){
+
+            timeMin = time
+            height = i
+        }
+    }
+}
+println("${timeMin} ${height}")
 }
 
 
