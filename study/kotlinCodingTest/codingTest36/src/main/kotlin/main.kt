@@ -2,23 +2,31 @@ import kotlin.math.abs
 val bre = System.`in`.bufferedReader()
 fun main() = with(System.out.bufferedWriter()){
 
-   var strArray = bre.readLine().split(" ")
-
-    var answer = Integer.MAX_VALUE
-
-    for(i in 0.. (strArray[1].length - strArray[0].length)){
-        var count =0
-        for(j in strArray[0].indices){
-            if(strArray[1].toCharArray()[j+i]!=strArray[0].toCharArray()[j]){
-                count++
+    var n = bre.readLine().toInt()
+    var answer = ArrayList<String>()
+    for(i in 0 until  n){
+        var count = bre.readLine().toInt()
+        var str = bre.readLine().split(" ")
+        var temp =""
+        for(j in 0 until count){
+            if(j==0){
+                temp = str[j]
+            }else{
+                if(temp.toCharArray()[0].toString()>=str[j]){
+                    temp = "${str[j]}${temp}"
+                }else{
+                    temp = "${temp}${str[j]}"
+                }
             }
 
         }
 
-        answer = Math.min(count,answer)
+        answer.add(temp)
     }
 
-    println(answer)
+    for(i in answer.indices){
+        println(answer[i])
+    }
 }
 
 
