@@ -1,36 +1,43 @@
+
 import kotlin.math.abs
-val bre = System.`in`.bufferedReader()
+import java.util.*
 
-fun main() = with(System.out.bufferedWriter()) {
-
-    var count = bre.readLine().toInt()
+fun main()  {
 
 
-    var list = ArrayList<Int>()
-    var sum = 0
-    var max = 0
-    for(i in 0 until count){
-        var num = bre.readLine().toInt()
-        sum += num
-        list.add(num)
-    }
+    var scanner = Scanner(System.`in`)
 
-    list.sortDescending()
-    max  = list[0]
-    sum = list[0]
-    for(i in 1 until list.size){
+    var n = scanner.nextInt()
+    var k = scanner.nextInt()
+    var str = scanner.next().toCharArray()
 
-        var temp   = sum+list[i]
+    var answer = 0
 
-        if(temp.toDouble()/(i+1) >list[i].toDouble()){
-            temp = list[i]*(i+1)
+    for(i in str.indices){
+        var start=0
+        var end = 0
+        if(i-k <0){
+            start= i+1
+        }else{
+            start = i-k
         }
 
-        if(temp>max){
-            max = temp
-            sum = temp
+        if(i+k>=str.size){
+            end = str.size-1
+        }else{
+            end = i+k
         }
 
+        for(j in start until end+1){
+            if((str[i]=='H' && str[j]=='P') ||
+                (str[i]=='P' &&str[j]=='H')){
+                answer++
+                str[i]='/'
+                str[j]='/'
+                break
+            }
+        }
     }
-    println(max)
+
+    println(answer)
 }
