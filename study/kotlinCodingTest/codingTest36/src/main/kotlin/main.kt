@@ -1,23 +1,35 @@
 
 import java.util.*
+import kotlin.collections.ArrayList
+
 fun main()  {
 
 
     var scanner = Scanner(System.`in`)
 
-    var firstStr = scanner.nextLine()
-    var secondStr = scanner.nextLine()
-    var index= 0
-    var answer =0
-    while (index+secondStr.length<=firstStr.length){
-        if(firstStr.substring(index,index+secondStr.length).equals(secondStr)){
-            answer++
-            index +=secondStr.length
-        }else{
-            index++
+
+    var count = scanner.nextInt()
+    var answer= 0
+
+    for(i in 0  until count){
+
+        var list = ArrayList<String>()
+
+        var str = scanner.next()
+        var check = true
+        for(i in str.indices){
+            if(!list.contains(str.substring(i,i+1))){
+                list.add(str.substring(i,i+1))
+            }else {
+                if(str.subSequence(i-1,i)!=str.subSequence(i,i+1)){
+                    check = false
+                }
+            }
         }
 
-
+        if(check){
+            answer++
+        }
     }
 
     println(answer)

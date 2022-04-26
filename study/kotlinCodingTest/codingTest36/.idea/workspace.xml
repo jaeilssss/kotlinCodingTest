@@ -40,7 +40,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Kotlin.MainKt">
+  <component name="RunManager" selected="Kotlin.SolutionKt">
     <configuration name="MainKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
       <module name="codingTest36.main" />
       <option name="VM_PARAMETERS" />
@@ -95,8 +95,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Kotlin.MainKt" />
         <item itemvalue="Kotlin.SolutionKt" />
+        <item itemvalue="Kotlin.MainKt" />
         <item itemvalue="Kotlin.TempKt" />
         <item itemvalue="Kotlin.TestKt" />
       </list>
@@ -120,8 +120,8 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="kotlin-function">
           <url>file://$PROJECT_DIR$/src/main/kotlin/Solution.kt</url>
-          <line>66</line>
-          <properties class="Solution" method="main">
+          <line>40</line>
+          <properties class="Solution">
             <option name="EMULATED" value="true" />
           </properties>
           <option name="timeStamp" value="8" />
