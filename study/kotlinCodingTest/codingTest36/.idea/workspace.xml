@@ -120,8 +120,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="kotlin-function">
           <url>file://$PROJECT_DIR$/src/main/kotlin/Solution.kt</url>
-          <line>40</line>
-          <properties class="Solution">
+          <properties class="Solution" method="&lt;init&gt;">
             <option name="EMULATED" value="true" />
           </properties>
           <option name="timeStamp" value="8" />

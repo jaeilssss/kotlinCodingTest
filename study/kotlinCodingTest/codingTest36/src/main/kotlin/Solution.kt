@@ -1,72 +1,70 @@
-import java.util.*
-import kotlin.collections.HashMap
-
 class Solution {
+    fun solution(rows: Int, columns: Int, queries: Array<IntArray>): IntArray {
+        var answer = intArrayOf()
+        answer = IntArray(queries.size)
+        var arr: Array<IntArray> = Array(rows) { IntArray(columns) }
 
-    var visited :IntArray = intArrayOf()
-    var arr  : Array<HashMap<Int,Int>> = arrayOf()
-    fun solution(N: Int, road: Array<IntArray>, k: Int): Int {
-        var answer = 1
+        var num = 1
+        for (i in 0 until rows) {
+            for (j in 0 until columns) {
+                arr[i][j] = num
+                num++
+            }
 
+        }
 
-        visited = IntArray(N+1){-1}
-        arr = Array(N+1){ HashMap() }
+        for (i in queries.indices) {
+            var x1 = queries[i][0]
+            var y1 = queries[i][1]
+            var x2 = queries[i][2]
+            var y2 = queries[i][3]
 
-        for(i in road.indices){
-            var startIndex = road[i][0]
-            var endIndex = road[i][1]
-            var distance = road[i][2]
+            var x = x1 - 1
+            var y = y1
+            var temp = arr[x1 - 1][ y1 - 1]
+            var min = temp
+            while (x != x1 - 1 || y != y1 - 1) {
 
-            if(arr[startIndex].containsKey(endIndex)){
+                min = Math.min(min, arr[x][y])
+                var temp2 = arr[x][y]
+                arr[x][y] = temp
+                temp = temp2
 
-                if(arr[startIndex][endIndex]!! >distance){
-                    arr[startIndex][endIndex] = distance
-                    arr[endIndex][startIndex] = distance
+                if (y < y2 - 1 && x == x1 - 1) {
+                    y++
+                } else if (y == y2 - 1 && x != x2 - 1) {
+                    x++
+                } else if (x == x2 - 1 && y > y1 - 1) {
+                    y--
+                } else if (y == y1 - 1 && x > x1 - 1) {
+                    x--
                 }
-            }else{
-                arr[startIndex][endIndex] = distance
-                arr[endIndex][startIndex] = distance
-            }
 
+            }
+            arr[x1-1][y1-1] = temp
+
+            min = Math.min(min,  arr[x1-1][y1-1])
+            answer[i] = min
 
         }
-        search(1)
-        for(i in 2 ..N){
-            if(visited[i]<=k && visited[i]!=-1){
-                answer++
+        for(w in 0 until rows){
+            for(j in 0 until columns){
+                print(arr[w][j])
             }
+            println()
         }
+
         return answer
     }
 
-    fun search(index : Int ){
-    visited[1]=0
-    var queue = LinkedList<Int>()
-        queue.add(index)
-        while (!queue.isEmpty()){
-
-            var i = queue.poll()
-
-            for(key in arr[i].keys){
-                var dist = arr[i][key]
-
-                if(visited[key]==-1){
-                    queue.add(key)
-                    visited[key] = dist!!+visited[i]
-                }else if(visited[key] >visited[i]+dist!!){
-                    visited[key] = visited[i]+dist
-                    queue.add(key)
-                }
-            }
-        }
-    }
 }
+fun main() {
+    var sol = Solution()
 
-fun main(){
-    var solution = Solution()
+    var answer =
+        sol.solution(6, 6, arrayOf(intArrayOf(2, 2, 5, 4,), intArrayOf(3, 3, 6, 6,), intArrayOf(5, 1, 6, 3)))
 
-    var answer = solution.solution(5,
-    arrayOf(intArrayOf(1,2,1), intArrayOf(2,3,3), intArrayOf(5,2,2), intArrayOf(1,4,2),
-    intArrayOf(5,3,1), intArrayOf(5,4,2)),3)
-    println(answer)
+//    for(i in answer.indices){
+//        println(answer[i])
+//    }
 }
