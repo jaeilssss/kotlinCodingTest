@@ -1,82 +1,44 @@
-import java.lang.StringBuilder
-
 class Solution {
-    fun solution(n: Int, k: Int): Int {
-        var answer: Int = 0
+
+    fun solution(n: Int): IntArray {
 
 
-        var str = converter(k , n)
-        var startIndex = -1
-        for(i in str.indices){
+        var answer = ArrayList<Int>()
+        var arr  : Array<IntArray> = Array(n){IntArray(n)}
 
-            if(startIndex ==-1 && ! str.substring(i,i+1).equals("0")){
-                startIndex = i
+        var dir = arrayOf(arrayOf(1,0), arrayOf(0,1), arrayOf(-1,-1))
+        var dirIdx = 0
+        var x = 0
+        var y = 0
+        var num = 1
+        var moveMax = n
+        var count = 0
+        while (moveMax!=0){
+            arr[x][y]= num++
 
-                if(i==str.length-1 && !str.substring(i,i+1).equals("0")){
-                    if(startIndex==-1){
-                        startIndex = i
-                    }
-                    var num = str.substring(startIndex,i+1)
-                    if(isPrime(num.toLong())){
-                        answer++
-                    }
-                }
-            } else if(startIndex != -1 && str.substring(i,i+1).equals("0")){
-
-
-                var num = str.substring(startIndex,i)
-                if(isPrime(num.toLong())){
-                    answer++
-                }
-                startIndex = -1
-            }else if(i==str.length-1 && !str.substring(i,i+1).equals("0")){
-                if(startIndex==-1){
-                    startIndex = i
-                }
-                var num = str.substring(startIndex,i+1)
-                if(isPrime(num.toLong())){
-                    answer++
-                }
-
-
+            count++
+            if(count==moveMax){
+                dirIdx++
+                count=0
+                moveMax--
             }
-        }
-        return answer
-    }
-
-    fun converter(digits : Int , num : Int) : String {
-        var number = num
-
-        val  sb = StringBuilder()
-
-        if(number==0) return "0"
-
-        while (number!=0){
-            val remain = number % digits
-
-            if(remain >9){
-                sb.insert(0,(remain+55).toChar())
-            }else{
-                sb.insert(0,remain)
-            }
-
-            number /= digits
+            x += dir[dirIdx%3][0]
+            y += dir[dirIdx%3][1]
         }
 
-        return sb.toString()
-    }
 
-    fun isPrime(num : Long) : Boolean{
-
-
-        if(num<=1) return false
-        for(i in 2 ..Math.sqrt(num.toDouble()).toInt()){
-            if((num%i).toInt()==0) return false
+for(i in 0 until n){
+    for(j in 0 until n){
+        if(arr[i][j]!=0){
+            println(arr[i][j])
+            answer.add(arr[i][j])
         }
-        return true
     }
 }
+        return answer.toIntArray()
+    }
 
+}
 fun main(){
-    println(Solution().solution(524287,2))
+Solution().solution(4)
 }
