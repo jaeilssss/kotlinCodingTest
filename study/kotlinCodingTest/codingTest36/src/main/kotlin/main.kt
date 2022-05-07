@@ -1,36 +1,80 @@
 
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
+class Node(
+    var start : Int,
+    var end : Int,
+    var dst : Int
+){
+}
+
+var minDist = Integer.MAX_VALUE
+var node  : HashMap<Int , ArrayList<Node>> = HashMap()
+
+var d : Int = 0
+var n : Int = 0
 fun main()  {
-
 
     var scanner = Scanner(System.`in`)
 
+    n = scanner.nextInt()
+    d = scanner.nextInt()
 
-    var count = scanner.nextInt()
-    var answer= 0
+    for(i in 0 until n){
+        var start = scanner.nextInt()
+        var end = scanner.nextInt()
+        var dist = scanner.nextInt()
 
-    for(i in 0  until count){
+        if(node.containsKey(start)){
 
-        var list = ArrayList<String>()
+            var list = node.get(start)
+            list!!.add(Node(start,end,dist))
+            node.put(start,list)
 
-        var str = scanner.next()
-        var check = true
-        for(i in str.indices){
-            if(!list.contains(str.substring(i,i+1))){
-                list.add(str.substring(i,i+1))
-            }else {
-                if(str.subSequence(i-1,i)!=str.subSequence(i,i+1)){
-                    check = false
-                }
-            }
-        }
-
-        if(check){
-            answer++
+        }else{
+            var list = ArrayList<Node>()
+                list.add(Node(start,end,dist))
+            node.put(start,list)
         }
     }
 
-    println(answer)
+
+
+    search(0,0)
+    println(minDist)
+}
+
+
+fun search(start : Int, totalDist : Int){
+
+    var startIdx = start
+    var distance = totalDist
+    var loop = true
+    while (loop){
+
+        if(startIdx>=d){
+            if(startIdx==d){
+                minDist = Math.min(minDist,distance)
+
+            }
+            loop = false
+        } else {
+            if(node.containsKey(startIdx)){
+
+                var list = node.get(startIdx)
+
+
+                for(i in list!!.indices){
+
+                    search(list.get(i).end,distance+list.get(i).dst)
+                }
+            }
+                startIdx++
+                distance++
+
+        }
+    }
+
 }
