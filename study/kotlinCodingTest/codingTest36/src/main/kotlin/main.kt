@@ -1,29 +1,34 @@
 
+import com.sun.xml.internal.fastinfoset.util.StringArray
 import java.io.BufferedReader
 import java.io.InputStreamReader
-import kotlin.collections.LinkedHashSet
 
-fun main()  {
-    val bufferedReader= BufferedReader(InputStreamReader(java.lang.System.`in`))
-    val set = LinkedHashSet<String>()
+fun main() {
+    val bufferedReader = BufferedReader(InputStreamReader(java.lang.System.`in`))
 
-    var arr   = bufferedReader.readLine().split(" ")
-    for(i in 0 until arr[1].toInt()){
-       var number = bufferedReader.readLine()
+    var num = bufferedReader.readLine().toInt()
 
-        if(set.contains(number)){
-            set.remove(number)
+    var chars = bufferedReader.readLine().toCharArray()
+
+    var bCount = 0
+    var rCount = 0
+    for(i in 0 until num){
+
+        var c = chars[i]
+        if(i==0){
+            if(chars[i]=='B') bCount++
+            else rCount++
+        }else{
+
+            if(c==chars[i-1]) continue
+            else{
+                if(c=='B') bCount++
+                else rCount++
+            }
         }
-        set.add(number)
     }
 
-    val it : Iterator<String> = set.iterator()
-    var count = 1
-    while (it.hasNext()){
-
-        println(it.next())
-        if(count==arr[0].toInt()) break
-        count++
-    }
+    if(bCount>=rCount) println(rCount+1)
+    else println(bCount+1)
 }
 
