@@ -3,52 +3,43 @@ import com.sun.xml.internal.fastinfoset.util.StringArray
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.util.*
+import kotlin.collections.ArrayList
 
 fun main() {
     val bufferedReader = BufferedReader(InputStreamReader(java.lang.System.`in`))
 
-    var chars = bufferedReader.readLine().toCharArray()
+   var num = bufferedReader.readLine().split(" ").map { it.toInt() }
+    var arr = Array<CharArray>(num[0]){ CharArray(num[1]) }
+    var list = ArrayList<String>()
+    for(i in 0 until num[0]){
+        var temp = bufferedReader.readLine().toCharArray()
 
-    var stack = Stack<Int>()
-
-    var answer = 0
-    var check = false
-    var lastNum  =0
-    stack.push(0)
-    for(i in chars.indices){
-
-        var c = chars[i]
-
-            if(c=='H'){
-            var num = stack.pop()
-                stack.push(num+1)
-                lastNum = 1
-            }else if(c=='C'){
-                var num = stack.pop()
-                stack.push(num+12)
-                lastNum=12
-            }else if(c=='O'){
-                var num = stack.pop()
-                stack.push(num+16)
-                lastNum = 16
-            }else if(c=='('){
-                stack.push(0)
-            }else if(c==')'){
-                var num1 = stack.pop()
-                lastNum = num1
-                var num2 = stack.pop()
-                stack.push(num1+num2)
-            }else{
-                var num = chars[i].toString().toInt()
-                for(i in 1 until num){
-                    var temp = stack.pop()
-                    stack.push(temp+lastNum)
-                }
-            }
-
+        for(j in 0 until num[1]){
+            arr[i][j] = temp[j]
+        }
     }
 
-    println(stack.pop())
+    for(i in 0 until num[0]){
+        var str =""
+        for(j in 0 until num[1]){
+            if(arr[i][j]=='#') break
+           else str +=arr[i][j].toString()
+        }
+        if(str!="" && str.length>=2) list.add(str)
+    }
+
+    for(i in 0 until num[1]){
+        var str = ""
+        for(j in 0 until num[0]){
+          if(arr[j][i]=='#') break
+           else str+= arr[j][i].toString()
+        }
+        if(str!="" && str.length>=2) list.add(str)
+    }
+
+    list.sort()
+
+    println(list[0])
 
 }
 

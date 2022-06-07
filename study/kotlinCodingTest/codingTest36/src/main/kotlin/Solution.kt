@@ -1,44 +1,60 @@
+import java.util.regex.Pattern
+
 class Solution {
+    var answer = HashSet<HashSet<String>>()
+    var list = ArrayList<ArrayList<String>>()
+    fun solution(user_id: Array<String>, banned_id: Array<String>): Int {
 
-    fun solution(n: Int): IntArray {
 
 
-        var answer = ArrayList<Int>()
-        var arr  : Array<IntArray> = Array(n){IntArray(n)}
+        banned_id.forEach {
+        list.add(getMatched(user_id,it))
+        }
 
-        var dir = arrayOf(arrayOf(1,0), arrayOf(0,1), arrayOf(-1,-1))
-        var dirIdx = 0
-        var x = 0
-        var y = 0
-        var num = 1
-        var moveMax = n
-        var count = 0
-        while (moveMax!=0){
-            arr[x][y]= num++
 
-            count++
-            if(count==moveMax){
-                dirIdx++
-                count=0
-                moveMax--
+        dfs(HashSet(),0)
+
+
+        return answer.size
+    }
+
+    fun getMatched(user_id: Array<String>, bannedId : String ) : ArrayList<String>{
+
+        var arrayList = ArrayList<String>()
+        var ban = bannedId.replace('*','.')
+        user_id.forEach {
+
+            if(Pattern.matches(ban,it)){
+                arrayList.add(it)
             }
-            x += dir[dirIdx%3][0]
-            y += dir[dirIdx%3][1]
+        }
+        return arrayList
+    }
+
+    fun dfs(set : HashSet<String> , depth : Int){
+
+        if(depth==list.size){
+            answer.add(HashSet(set))
+            return
+        }
+        list.get(depth).forEach{
+            if(!set.contains(it)){
+                set.add(it)
+                dfs(set,depth+1)
+                set.remove(it)
+            }
         }
 
 
-for(i in 0 until n){
-    for(j in 0 until n){
-        if(arr[i][j]!=0){
-            println(arr[i][j])
-            answer.add(arr[i][j])
-        }
     }
 }
-        return answer.toIntArray()
-    }
 
-}
+
 fun main(){
-Solution().solution(4)
+    var solution = Solution()
+    println(solution.solution(
+        arrayOf("frodo", "fradi", "crodo", "abc123", "frodoc"),
+        arrayOf("*rodo", "*rodo", "******")
+    ))
+
 }
