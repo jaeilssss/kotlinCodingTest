@@ -5,7 +5,7 @@ class Solution {
     fun solution(jobs: Array<IntArray>): Int {
         var answer = 0
 
-        var heap = PriorityQueue<HashMap<Int,Int>>()
+        var heap = PriorityQueue<IntArray>()
 
 
         return answer

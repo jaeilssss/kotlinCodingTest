@@ -13,6 +13,13 @@
       <ProjectState />
     </projectState>
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Kotlin File" />
+      </list>
+    </option>
+  </component>
   <component name="ProjectId" id="1yANooGapr8TbINkXbmlE6Uci8S" />
   <component name="PropertiesComponent">
     <property name="project.structure.last.edited" value="Project" />

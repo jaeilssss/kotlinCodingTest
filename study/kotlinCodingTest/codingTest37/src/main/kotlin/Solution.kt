@@ -1,33 +1,12 @@
-import java.lang.Integer.min
-import java.lang.Math.max
-
 class Solution {
-    fun solution(n: Int, m: Int): IntArray {
-        return intArrayOf(gcm(n, m), lcm(n, m))
-    }
+    fun solution(arr1: Array<IntArray>, arr2: Array<IntArray>): Array<IntArray> {
+        var answer = Array<IntArray>(arr1.size,IntArray(5,{0}))
 
-    // 최대공약수
-    fun gcm(a: Int, b: Int): Int {
-        var maximum = max(a, b)
-        var minimum = min(a, b)
-
-        if (minimum == 0) {
-            return maximum
-        } else {
-            return gcm(minimum, maximum % minimum)
+        for(i in arr1.indices){
+            for(j in arr1[i].indices){
+                arr1[i]
+            }
         }
-    }
-
-
-    //최소공배수수
-    fun lcm(a: Int, b: Int): Int =
-        (a * b) / gcm(a, b)
-}
-
-fun main(){
-    var result = Solution().solution(0,20)
-
-    for(i in result.indices){
-        println(result[i])
+        return answer
     }
 }
