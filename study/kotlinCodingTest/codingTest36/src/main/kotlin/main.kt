@@ -1,84 +1,116 @@
 
 import java.io.BufferedReader
 import java.io.InputStreamReader
-var list = ArrayList<BaseBall>()
+import java.util.*
+import kotlin.collections.ArrayList
+
+var emptyList = ArrayList<Place>()
+var virusList = ArrayList<Place>()
+
+var tempBlockList  : BooleanArray = booleanArrayOf()
+var max = Integer.MIN_VALUE
+var dx = intArrayOf(-1,0,1,0)
+var dy = intArrayOf(0,-1,0,1)
+var num : List<Int> = listOf()
 fun main() {
     val bufferedReader = BufferedReader(InputStreamReader(java.lang.System.`in`))
 
-
-    var count= bufferedReader.readLine().toInt()
-    var anwwer = HashSet<String>()
-
-
-
-    for(i in 0 until count){
-        var str = bufferedReader.readLine().split(" ").map { it.toInt() }
-
-        var array = IntArray(3)
-
-        array[0] = str[0].toString().toCharArray()[0].toString().toInt()
-        array[1] = str[0].toString().toCharArray()[1].toString().toInt()
-        array[2] = str[0].toString().toCharArray()[2].toString().toInt()
-        list.add(BaseBall(array,str[1],str[2]))
-
-    }
+     num = bufferedReader.readLine().split(" ").map { it.toInt() }
+    var array :Array<IntArray> = arrayOf()
+    array = Array(num[0]){IntArray(num[1])}
 
 
-    for(num in 123 .. 987){
-        var arr = num.toString().toCharArray()
 
-        var num1 = arr[0].toString().toInt()
-        var num2 = arr[1].toString().toInt()
-        var num3 = arr[2].toString().toInt()
+    for(i in  0 until num[0]){
+        var temp = bufferedReader.readLine().split(" ").map { it.toInt() }
+        
+        for(j in temp.indices){
+            array[i][j] = temp[j]
+            if(temp[j]==0){
+                emptyList.add(Place(i,j))
 
-        if(num1==num2 || num1==num3 || num2==num3|| num1==0 || num2==0 || num3==0){
-            continue
-        }else{
-            if(check(intArrayOf(num1,num2,num3))){
-                anwwer.add("${num1}${num2}${num3}")
+            }else if(temp[j]==2){
+                virusList.add(Place(i,j))
             }
         }
-
-
     }
-    println(anwwer.size)
+
+    tempBlockList =BooleanArray(emptyList.size){false}
+
+
+    setBlock(0,array)
+
+    println(max)
 }
 
+fun search(array : Array<IntArray>){
+    var tempArray = Array<IntArray>(num[0]){IntArray(num[1])}
+    var count = 0
 
-class BaseBall(var data : IntArray ,var strike : Int , var Ball : Int)
-
-fun check(input : IntArray) : Boolean{
-
-    var result = true
-    for(i in list.indices){
-        var baseBall : BaseBall = list.get(i)
-        var strikeCount = 0
-        var ballCount = 0
-
-        if(input[0]==baseBall.data[0]){
-            strikeCount++
-        }
-        if(input[1]==baseBall.data[1]){
-            strikeCount++
-        }
-        if(input[2]==baseBall.data[2]){
-            strikeCount++
-        }
-
-        if(input[0]==baseBall.data[1] || input[0]==baseBall.data[2]){
-            ballCount++
-        }
-        if(input[1]==baseBall.data[0] || input[1]==baseBall.data[2]){
-            ballCount++
-        }
-        if(input[2]==baseBall.data[1] || input[2]==baseBall.data[0]){
-            ballCount++
-        }
-
-        if(ballCount !=baseBall.Ball || strikeCount != baseBall.strike){
-            return false
+    for(i in 0 until num[0]){
+        for(j in 0 until num[1]){
+            tempArray[i][j] = array[i][j]
         }
     }
-    return result
+
+    for(v in virusList.indices){
+        var queue = LinkedList<Place>()
+        var tmp = virusList[v]
+
+        queue.add(tmp)
+
+        while (queue.isNotEmpty()){
+           var temp = queue.poll()
+
+            for(d in 0 until 4){
+                var tempX = temp.x+dx[d]
+                var tempY = temp.y+dy[d]
+
+                if(tempX>=0 && tempY>=0 && tempX<num[0] && tempY <num[1]){
+                    if(tempArray[tempX][tempY]==0){
+                        tempArray[tempX][tempY] = 2
+                        queue.add(Place(tempX,tempY))
+                    }
+                }
+            }
+        }
+    }
+
+    for(a in 0 until num[0]){
+        for(b in 0 until num[1]){
+            if(tempArray[a][b]==0){
+                count++
+            }
+        }
+    }
+
+    max = Integer.max(count,max)
+}
+
+fun setBlock(cnt : Int, array : Array<IntArray>){
+
+    if(cnt==3){
+        search(array)
+    }else{
+        for(i in emptyList.indices){
+
+            if(!tempBlockList[i]){
+                var x = emptyList[i].x
+                var y = emptyList[i].y
+
+                array[x][y] = 1
+                tempBlockList[i]=true
+                setBlock(cnt+1,array)
+                array[x][y] = 0
+                tempBlockList[i]=false
+            }
+
+        }
+    }
+
+
+}
+class Place(var x : Int , var y : Int){
+    
 }
 

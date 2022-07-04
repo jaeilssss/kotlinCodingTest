@@ -20,6 +20,7 @@ fun main(){
     var heap = PriorityQueue<HashMap<Int,Int>>()
 
     var map = HashMap<Int,Int>()
+
     map.put(100,10)
 
     heap.add(map)
