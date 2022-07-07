@@ -4,113 +4,105 @@ import java.io.InputStreamReader
 import java.util.*
 import kotlin.collections.ArrayList
 
-var emptyList = ArrayList<Place>()
-var virusList = ArrayList<Place>()
 
-var tempBlockList  : BooleanArray = booleanArrayOf()
-var max = Integer.MIN_VALUE
-var dx = intArrayOf(-1,0,1,0)
-var dy = intArrayOf(0,-1,0,1)
-var num : List<Int> = listOf()
+var arr : Array<Array<IntArray>> = arrayOf()
+var idxQueue = LinkedList<Point>()
+var checkList = ArrayList<Point>()
+var num = listOf<Int>()
+var dy = arrayOf(0,1,0,-1)
+var dz = arrayOf(-1,0,1,0)
+var check = false
+
 fun main() {
     val bufferedReader = BufferedReader(InputStreamReader(java.lang.System.`in`))
 
+
+
      num = bufferedReader.readLine().split(" ").map { it.toInt() }
-    var array :Array<IntArray> = arrayOf()
-    array = Array(num[0]){IntArray(num[1])}
+    var day = 0
+
+    arr = Array(num[2]){ Array(num[1]){ IntArray(num[0]) } }
 
 
+    for(i in 0 until num[2]){
 
-    for(i in  0 until num[0]){
-        var temp = bufferedReader.readLine().split(" ").map { it.toInt() }
-        
-        for(j in temp.indices){
-            array[i][j] = temp[j]
-            if(temp[j]==0){
-                emptyList.add(Place(i,j))
-
-            }else if(temp[j]==2){
-                virusList.add(Place(i,j))
-            }
-        }
-    }
-
-    tempBlockList =BooleanArray(emptyList.size){false}
-
-
-    setBlock(0,array)
-
-    println(max)
-}
-
-fun search(array : Array<IntArray>){
-    var tempArray = Array<IntArray>(num[0]){IntArray(num[1])}
-    var count = 0
-
-    for(i in 0 until num[0]){
         for(j in 0 until num[1]){
-            tempArray[i][j] = array[i][j]
-        }
-    }
+            var temp = bufferedReader.readLine().split(" ").map { it.toInt() }
+            for(k in 0 until num[0]){
 
-    for(v in virusList.indices){
-        var queue = LinkedList<Place>()
-        var tmp = virusList[v]
-
-        queue.add(tmp)
-
-        while (queue.isNotEmpty()){
-           var temp = queue.poll()
-
-            for(d in 0 until 4){
-                var tempX = temp.x+dx[d]
-                var tempY = temp.y+dy[d]
-
-                if(tempX>=0 && tempY>=0 && tempX<num[0] && tempY <num[1]){
-                    if(tempArray[tempX][tempY]==0){
-                        tempArray[tempX][tempY] = 2
-                        queue.add(Place(tempX,tempY))
-                    }
+                arr[i][j][k]= temp[k]
+                if(temp[k]==1){
+                    idxQueue.add(Point(i,j,k))
+                }else if(temp[k]==0){
+                    checkList.add(Point(i,j,k))
                 }
             }
         }
     }
 
-    for(a in 0 until num[0]){
-        for(b in 0 until num[1]){
-            if(tempArray[a][b]==0){
-                count++
-            }
+    while (idxQueue.isNotEmpty()){
+        check = false
+        bfs(idxQueue.size)
+        if(check) day++
+
+    }
+    if(checkList.isEmpty()){
+        println(0)
+        return
+    }
+    for(i in checkList.indices){
+        var point = checkList.get(i)
+
+        if(arr[point.x][point.y][point.z]==0){
+            println("-1")
+            return
         }
     }
+println(day)
 
-    max = Integer.max(count,max)
+
+
 }
+class Point(var x  : Int , var y : Int , var z : Int)
+fun bfs(size : Int){
 
-fun setBlock(cnt : Int, array : Array<IntArray>){
+    for(k in 0 until size){
 
-    if(cnt==3){
-        search(array)
-    }else{
-        for(i in emptyList.indices){
 
-            if(!tempBlockList[i]){
-                var x = emptyList[i].x
-                var y = emptyList[i].y
+        var point = idxQueue.poll()
 
-                array[x][y] = 1
-                tempBlockList[i]=true
-                setBlock(cnt+1,array)
-                array[x][y] = 0
-                tempBlockList[i]=false
+
+            if(point.x+1<num[2]){
+
+                if(arr[point.x+1][point.y][point.z]==0){
+                    arr[point.x+1][point.y][point.z]=1
+                    idxQueue.add(Point(point.x+1,point.y,point.z))
+                    check = true
+                }
+            }
+            if(point.x-1>=0){
+                if(arr[point.x-1][point.y][point.z]==0){
+                    arr[point.x-1][point.y][point.z]=1
+                    idxQueue.add(Point(point.x-1,point.y,point.z))
+                    check = true
+                }
+            }
+            for(i in 0 until 4){
+
+                var tempY = point.y+dy[i]
+                var tempZ = point.z+dz[i]
+
+            if(tempY>=0 &&tempZ>=0 && tempY<num[1] && tempZ<num[0])
+                if(arr[point.x][tempY][tempZ]==0){
+                    arr[point.x][tempY][tempZ]=1
+                    idxQueue.add(Point(point.x,tempY,tempZ))
+                    check = true
+                }
+
             }
 
-        }
     }
 
 
-}
-class Place(var x : Int , var y : Int){
-    
-}
 
+}
