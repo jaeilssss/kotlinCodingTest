@@ -1,47 +1,24 @@
-
 import java.io.BufferedReader
 import java.io.InputStreamReader
-
-
 
 fun main() {
     val bufferedReader = BufferedReader(InputStreamReader(java.lang.System.`in`))
 
-    var map = HashMap<String , Int>()
-
-    var arrayList = ArrayList<String>()
-
 
     var num = bufferedReader.readLine().toInt()
-    var finished= ArrayList<String>()
-    var answer= 0
-    for(i in 0 until num){
-        var str = bufferedReader.readLine()
-
-        map.put(str,i)
-
-        arrayList.add(str)
-    }
-
-    for(i in 0 until num){
-        var str = bufferedReader.readLine()
-
-        var idx = map.get(str)
-        var check =true
-        if(idx==0){
-            finished.add(str)
-        }else{
-            for(j in 0 until idx!!){
-                if(!finished.contains(arrayList[j])){
-                    answer++
-                    finished.add(str)
-                    check=false
-                    break
-                }
-            }
-            if(check) finished.add(str)
+    var dp = IntArray(num+1)
+    dp[1] = 1
+    dp[2] = 2
+    if(num==1){
+        println("1")
+    }else if(num==2){
+        println("2")
+    }else{
+        for(i in 3 ..num){
+            dp[i] = (dp[i-1]+dp[i-2])%10007
         }
+        println(dp[num])
     }
 
-    println(answer)
 }
+
