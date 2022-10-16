@@ -1,9 +1,22 @@
-import java.util.*
 
 
-fun main() = with(System.out.bufferedWriter()){
+fun main(){
 
-    var test  :Int = 10000
+//
+//    var t : Char = 'a'
+//    var b : Byte = 97
+//    print(b.toChar())
 
-    println(test)
+    var s = "11100211"
+    var t = "1"
+    var q : Int = 1000000000
+    println(s.startsWith(t))
+
+}
+
+class temp(var i  :Int):Comparable<temp>{
+    override fun compareTo(other: temp): Int {
+        return this.i - other.i
+    }
+
 }
