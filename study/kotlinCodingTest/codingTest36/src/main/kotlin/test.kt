@@ -7,6 +7,7 @@ import kotlin.math.min
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.util.*
+import kotlin.collections.ArrayList
 
 fun main()=with(BufferedReader(InputStreamReader(System.`in`))) {
 
@@ -14,26 +15,44 @@ fun main()=with(BufferedReader(InputStreamReader(System.`in`))) {
     var scanner = Scanner(System.`in`)
 
 
-    var N = scanner.nextInt()
-    var K = scanner.nextInt()
-    var A = scanner.nextInt()
-    var B = scanner.nextInt()
+    var  K = scanner.nextInt()
 
-    var day = 0
-    var initValue = K
+    var arr = ArrayList<Pair<Int,Int>>()
+    var maxHeight = 0
+    var maxWidth = 0
+    for(i in 0 until 6){
+        var d = scanner.nextInt()
+        var value = scanner.nextInt()
 
-    while (true){
-        day++
-
-        if(day % (N/A)==0) initValue+=B
-         initValue--
-
-        if(initValue==0){
-            break
+        if(d==4 || d==3){
+            if(maxHeight<value){
+                maxHeight = value
+            }
+        }else {
+            if(maxWidth<value){
+                maxWidth = value
+            }
         }
+
+        arr.add(Pair(d,value))
     }
 
-    println(day)
+    var emptyHight = 0
+    var emptyWidth = 0
+    for(i in arr.indices){
+
+        if(arr[i].first<=2){
+
+            if(arr[(i+5)%6].second + arr[(i+1)%6].second == maxHeight){
+                emptyWidth = arr[i].second
+            }
+        }else{
+            if(arr[(i+5)%6].second + arr[(i+1)%6].second == maxWidth){
+                emptyHight = arr[i].second
+            }
+        }
+    }
+    println(((maxWidth*maxHeight)-(emptyHight*emptyWidth))*K)
 }
 
 class Beer(var v : Int , var c : Int){
