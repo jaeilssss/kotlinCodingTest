@@ -15,44 +15,63 @@ fun main()=with(BufferedReader(InputStreamReader(System.`in`))) {
     var scanner = Scanner(System.`in`)
 
 
-    var  K = scanner.nextInt()
+    var count = scanner.nextInt()
 
-    var arr = ArrayList<Pair<Int,Int>>()
-    var maxHeight = 0
-    var maxWidth = 0
-    for(i in 0 until 6){
-        var d = scanner.nextInt()
-        var value = scanner.nextInt()
+    var str = scanner.next().toCharArray().map { it.toString() }
+    str = str.sorted()
+    var answer = 0
+    for(i in 0 until count-1){
+        var carr = scanner.next().toCharArray().map { it.toString() }.toMutableList()
 
-        if(d==4 || d==3){
-            if(maxHeight<value){
-                maxHeight = value
+        carr = carr.sorted() as MutableList<String>
+        if(carr.size==str.size){
+
+            var check = 0
+            var temp = str.toMutableList()
+            for(j in carr.indices){
+                if(temp.contains(carr[j])){
+                    var idx = temp.indexOf(carr[j])
+                    temp[idx]= "-${carr[j]}"
+                }else{
+                    check ++
+                }
             }
-        }else {
-            if(maxWidth<value){
-                maxWidth = value
+            if(check<=1) {
+                answer++
             }
+        }else if(carr.size-1 == str.size || carr.size+1 == str.size){
+            var check  = true
+            var temp = str.toMutableList()
+            if(carr.size-1 == temp.size){
+                for(j in temp.indices){
+                    if(carr.contains(temp[j])){
+                        var idx = carr.indexOf(temp[j])
+                        carr[idx]= "-${temp[j]}"
+                    }else{
+                        check = false
+                        break
+                    }
+                }
+
+
+            }else{
+
+                for(j in carr.indices){
+                    if(temp.contains(carr[j])){
+                        var idx = temp.indexOf(carr[j])
+                        temp[idx]= "-${carr[j]}"
+                    }else{
+                        check = false
+                        break
+                    }
+                }
+            }
+
+            if(check) answer++
         }
-
-        arr.add(Pair(d,value))
     }
 
-    var emptyHight = 0
-    var emptyWidth = 0
-    for(i in arr.indices){
-
-        if(arr[i].first<=2){
-
-            if(arr[(i+5)%6].second + arr[(i+1)%6].second == maxHeight){
-                emptyWidth = arr[i].second
-            }
-        }else{
-            if(arr[(i+5)%6].second + arr[(i+1)%6].second == maxWidth){
-                emptyHight = arr[i].second
-            }
-        }
-    }
-    println(((maxWidth*maxHeight)-(emptyHight*emptyWidth))*K)
+    println(answer)
 }
 
 class Beer(var v : Int , var c : Int){
