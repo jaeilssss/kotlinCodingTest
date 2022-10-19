@@ -1,83 +1,72 @@
 
-
-import com.sun.org.apache.xpath.internal.operations.Bool
-import kotlin.math.abs
-import kotlin.math.max
-import kotlin.math.min
 import java.io.BufferedReader
+import java.io.BufferedWriter
 import java.io.InputStreamReader
+import java.io.OutputStreamWriter
 import java.util.*
-import kotlin.collections.ArrayList
-
-fun main()=with(BufferedReader(InputStreamReader(System.`in`))) {
 
 
-    var scanner = Scanner(System.`in`)
+val dir = arrayOf(arrayOf(-1,0),arrayOf(0,1),arrayOf(1,0),arrayOf(0,-1))
+fun main() = with(System.out.bufferedWriter()){
 
 
-    var count = scanner.nextInt()
+    val br = System.`in`.bufferedReader()
 
-    var str = scanner.next().toCharArray().map { it.toString() }
-    str = str.sorted()
-    var answer = 0
-    for(i in 0 until count-1){
-        var carr = scanner.next().toCharArray().map { it.toString() }.toMutableList()
+    var num = br.readLine().toInt()
 
-        carr = carr.sorted() as MutableList<String>
-        if(carr.size==str.size){
+    var arr = Array<IntArray>(num){ IntArray(num) }
 
-            var check = 0
-            var temp = str.toMutableList()
-            for(j in carr.indices){
-                if(temp.contains(carr[j])){
-                    var idx = temp.indexOf(carr[j])
-                    temp[idx]= "-${carr[j]}"
-                }else{
-                    check ++
-                }
+
+    var point  = br.readLine().toInt()
+
+    var x = (num/2)
+    var y = (num/2)
+    var curIndex =0
+    var movMax=1
+    var cntMov =0
+    var n = 1
+    var answer = Pair<Int,Int>(0,0);
+    arr[x][y] = n++
+    while (true){
+
+
+        x += dir[curIndex%4][0]
+        y += dir[curIndex%4][1]
+        if(x !in 0 until num || y !in 0 until num) break
+
+        arr[x][y] = n++
+
+        if(arr[x][y]==point){
+            answer = Pair(x,y)
+        }
+        cntMov++
+        if(movMax==cntMov){
+            curIndex++
+            cntMov = 0
+
+            if(curIndex%2==0){
+                movMax++
             }
-            if(check<=1) {
-                answer++
-            }
-        }else if(carr.size-1 == str.size || carr.size+1 == str.size){
-            var check  = true
-            var temp = str.toMutableList()
-            if(carr.size-1 == temp.size){
-                for(j in temp.indices){
-                    if(carr.contains(temp[j])){
-                        var idx = carr.indexOf(temp[j])
-                        carr[idx]= "-${temp[j]}"
-                    }else{
-                        check = false
-                        break
-                    }
-                }
-
-
-            }else{
-
-                for(j in carr.indices){
-                    if(temp.contains(carr[j])){
-                        var idx = temp.indexOf(carr[j])
-                        temp[idx]= "-${carr[j]}"
-                    }else{
-                        check = false
-                        break
-                    }
-                }
-            }
-
-            if(check) answer++
         }
     }
 
-    println(answer)
+    for(i in 0 until num){
+
+        for(j in 0 until num){
+
+            write("${arr[i][j]} ")
+
+        }
+        write("\n")
+    }
+
+    write("${answer.first+1} ${answer.second+1}")
+    close()
 }
 
-class Beer(var v : Int , var c : Int){
 
 
-}
+
 
 
 
