@@ -1,72 +1,83 @@
 
-import java.io.BufferedReader
-import java.io.BufferedWriter
-import java.io.InputStreamReader
-import java.io.OutputStreamWriter
 import java.util.*
 
-
-val dir = arrayOf(arrayOf(-1,0),arrayOf(0,1),arrayOf(1,0),arrayOf(0,-1))
+var arr : Array<IntArray> = arrayOf()
+var d = arrayOf(arrayOf(0,-1), arrayOf(0,1), arrayOf(1,0), arrayOf(-1,0))
+var visited  : Array<BooleanArray> = arrayOf()
+var dist = Int.MAX_VALUE
 fun main() = with(System.out.bufferedWriter()){
 
+    var scanner = Scanner(System.`in`)
 
-    val br = System.`in`.bufferedReader()
+    var N  = scanner.nextInt()
+    var M = scanner.nextInt()
 
-    var num = br.readLine().toInt()
+    visited = Array(N+1){ BooleanArray(M+1) }
 
-    var arr = Array<IntArray>(num){ IntArray(num) }
-
-
-    var point  = br.readLine().toInt()
-
-    var x = (num/2)
-    var y = (num/2)
-    var curIndex =0
-    var movMax=1
-    var cntMov =0
-    var n = 1
-    var answer = Pair<Int,Int>(0,0);
-    arr[x][y] = n++
-    while (true){
+    arr = Array(N+1){ IntArray(M+1) }
 
 
-        x += dir[curIndex%4][0]
-        y += dir[curIndex%4][1]
-        if(x !in 0 until num || y !in 0 until num) break
+    for(i in 1 .. N){
 
-        arr[x][y] = n++
+        var str = scanner.next().toCharArray()
 
-        if(arr[x][y]==point){
-            answer = Pair(x,y)
+        for(j in 0 until  M){
+            arr[i][j+1] = str[j].toString().toInt()
+
         }
-        cntMov++
-        if(movMax==cntMov){
-            curIndex++
-            cntMov = 0
+    }
 
-            if(curIndex%2==0){
-                movMax++
+    search(N,M)
+
+
+    if(dist==Int.MAX_VALUE){
+        println(-1)
+    }
+
+
+}
+
+fun search(N : Int , M : Int){
+    var queue = LinkedList<Point>()
+
+    queue.add(Point(1,1,1, false))
+
+    visited[1][1] = true
+    while (!queue.isEmpty()){
+
+        var point = queue.poll()
+        if(point.x==N && point.y==M){
+            println(point.dist)
+            dist = point.dist
+            return
+        }
+        for(i in d.indices){
+
+            var x = point.x +d[i][0]
+            var y = point.y + d[i][1]
+
+
+            if(x in 1..N && y in 1..M){
+
+                if(!visited[x][y] && arr[x][y]==0){
+                    queue.add(Point(x,y,point.dist+1 , point.check))
+                    visited[x][y] = true
+
+                }else if(!visited[x][y] && arr[x][y]==1){
+                    if(!point.check){
+                        queue.add(Point(x,y,point.dist+1 , true))
+                        visited[x][y] = true
+                    }
+                }
             }
         }
+
     }
-
-    for(i in 0 until num){
-
-        for(j in 0 until num){
-
-            write("${arr[i][j]} ")
-
-        }
-        write("\n")
-    }
-
-    write("${answer.first+1} ${answer.second+1}")
-    close()
 }
 
 
 
-
+class Point(var x : Int , var y : Int , var dist : Int, var check : Boolean)
 
 
 
