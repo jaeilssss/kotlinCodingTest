@@ -1,83 +1,88 @@
 
 import java.util.*
+import kotlin.collections.ArrayList
 
-var arr : Array<IntArray> = arrayOf()
-var d = arrayOf(arrayOf(0,-1), arrayOf(0,1), arrayOf(1,0), arrayOf(-1,0))
-var visited  : Array<BooleanArray> = arrayOf()
-var dist = Int.MAX_VALUE
-fun main() = with(System.out.bufferedWriter()){
+var arr : Array<CharArray> = arrayOf()
+var visited : Array<BooleanArray> = arrayOf()
+var answer = Int.MIN_VALUE
+var n : Int =0
+var m =0
+var dir = arrayOf(arrayOf(1,0), arrayOf(0,1), arrayOf(-1,0), arrayOf(0,-1))
+fun main() = with(System.out.bufferedWriter()) {
+
+    var list= ArrayList<Point>()
 
     var scanner = Scanner(System.`in`)
+     n = scanner.nextInt()
+     m = scanner.nextInt()
+    arr = Array(n+1){ CharArray(m+1) }
+    visited = Array(n+1){ BooleanArray(m+1) }
 
-    var N  = scanner.nextInt()
-    var M = scanner.nextInt()
+    for(i in 0 until n){
+        var carr = scanner.next().toCharArray()
+        for(j in 0 until m){
 
-    visited = Array(N+1){ BooleanArray(M+1) }
+            arr[i+1][j+1] = carr[j]
 
-    arr = Array(N+1){ IntArray(M+1) }
-
-
-    for(i in 1 .. N){
-
-        var str = scanner.next().toCharArray()
-
-        for(j in 0 until  M){
-            arr[i][j+1] = str[j].toString().toInt()
-
+            if(arr[i+1][j+1]=='L'){
+                list.add(Point(i+1,j+1,0))
+            }
         }
     }
 
-    search(N,M)
+    for(i in list.indices){
+        visited = Array(n+1){ BooleanArray(m+1) }
 
+        var point = list[i]
 
-    if(dist==Int.MAX_VALUE){
-        println(-1)
+        search(point.x,point.y)
     }
 
-
+    println(answer)
 }
 
-fun search(N : Int , M : Int){
+fun search(x : Int, y : Int){
+
+
+
     var queue = LinkedList<Point>()
 
-    queue.add(Point(1,1,1, false))
-
-    visited[1][1] = true
+    queue.add(Point(x,y,0))
+    visited[x][y] = true
+    var count =0
     while (!queue.isEmpty()){
-
+        count++
         var point = queue.poll()
-        if(point.x==N && point.y==M){
-            println(point.dist)
-            dist = point.dist
-            return
-        }
-        for(i in d.indices){
-
-            var x = point.x +d[i][0]
-            var y = point.y + d[i][1]
+        var check = false
 
 
-            if(x in 1..N && y in 1..M){
+            for(i in dir.indices){
+                var tempX  =point.x+dir[i][0]
+                var tempY = point.y+dir[i][1]
 
-                if(!visited[x][y] && arr[x][y]==0){
-                    queue.add(Point(x,y,point.dist+1 , point.check))
-                    visited[x][y] = true
+                if(tempX in 1 until n+1 &&
+                    tempY in 1 until m+1){
 
-                }else if(!visited[x][y] && arr[x][y]==1){
-                    if(!point.check){
-                        queue.add(Point(x,y,point.dist+1 , true))
-                        visited[x][y] = true
+                    if(!visited[tempX][tempY] && arr[tempX][tempY]=='L'){
+                        visited[tempX][tempY] = true
+                        queue.add(Point(tempX,tempY,point.dist+1))
+
+                        check = true
                     }
                 }
             }
-        }
+
+        if(!check)                         answer = Math.max(answer,point.dist)
+
 
     }
+
+
 }
 
 
 
-class Point(var x : Int , var y : Int , var dist : Int, var check : Boolean)
+class Point(var x : Int , var y : Int , var dist : Int)
 
 
 
