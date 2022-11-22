@@ -1,22 +1,36 @@
 
 import java.util.*
-import kotlin.collections.ArrayList
 
+var arr = intArrayOf(1,5,10,50)
+var visited : BooleanArray = booleanArrayOf()
+var ans = 0
+var sb = StringBuffer()
 fun main() = with(System.out.bufferedWriter()) {
+    var scanner = Scanner(System.`in`)
+
+    var N = scanner.nextInt()
 
 
+    visited = BooleanArray(1001){false}
+    plus(0,0,0,N)
+    sb.append(ans)
+    println(sb)
 
-    var (N,M) = readLine()?.split(" ")!!.map { it.toInt() }
 
+}
+fun plus(count : Int ,idx : Int, sum : Int , N : Int){
 
-    if(N==1){
-        println(1)
-    }else if(N==2){
-        println(kotlin.math.min(4,(M+1)/2))
-    }else if(M<7){
-        println(kotlin.math.min(4,M))
+    if(count==N){
+        if(!visited[sum]){
+            visited[sum]  = true
+            ans++
+        }
+        return
     }else{
-        println(M-2)
+        for(i in idx until arr.size){
+
+            plus(count+1,i,sum+arr[i],N)
+        }
     }
 
 
