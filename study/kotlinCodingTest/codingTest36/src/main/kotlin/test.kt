@@ -6,17 +6,27 @@ var visited : BooleanArray = booleanArrayOf()
 var ans = 0
 var sb = StringBuffer()
 fun main() = with(System.out.bufferedWriter()) {
-    var scanner = Scanner(System.`in`)
+    var(N,M,T) = readLine()!!.split(" ").map {it.toInt() }
 
-    var N = scanner.nextInt()
+    var num = readLine()!!.split(" ").map{it.toInt()}
 
+    var sb = StringBuffer()
+    T--
+    for(i in 0 until M){
+        var k = readLine()!!.toInt()
+        if(k<N){
+            sb.append(num[k])
+            sb.append("\n")
+        }else if(k==N){
+            sb.append(num[T])
+            sb.append("\n")
+        }else{
+            sb.append(num[(k-T)%(N-T)+T])
+            sb.append("\n")
+        }
+    }
 
-    visited = BooleanArray(1001){false}
-    plus(0,0,0,N)
-    sb.append(ans)
-    println(sb)
-
-
+    println(sb.toString())
 }
 fun plus(count : Int ,idx : Int, sum : Int , N : Int){
 
