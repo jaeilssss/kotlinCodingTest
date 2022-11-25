@@ -1,78 +1,94 @@
 import java.util.*
+import kotlin.collections.ArrayList
 
-var arr : Array<IntArray> = arrayOf()
-var dist : Array<IntArray> = arrayOf()
-var visit : Array<BooleanArray> = arrayOf()
-var dir  = arrayOf(intArrayOf(0,1), intArrayOf(1,0), intArrayOf(-1,0), intArrayOf(0,-1))
-fun main(args: Array<String>){
-
-
+var arr : Array<ArrayList<Node>> = arrayOf()
+var dist : IntArray = intArrayOf()
+var visit : BooleanArray = booleanArrayOf()
+fun main(){
     var scanner = Scanner(System.`in`)
 
-    var num = scanner.nextInt()
 
-    arr = Array(num+1){ IntArray(num+1) }
-    dist = Array(num+1){ IntArray(num+1){Int.MAX_VALUE} }
+    var T = scanner.nextInt()
 
-    visit = Array(num+1){ BooleanArray(num+1) }
+    for(i in 0 until T){
 
-    for(i in 1 until num+1){
+        var N = scanner.nextInt()
+        var M = scanner.nextInt()
+        var total = IntArray(N+1){0}
+        var person = ArrayList<Int>()
+        arr = Array(N+1){ ArrayList() }
 
-        var str = scanner.next()
 
-        for(j in str.indices){
+        for(j in 0 until M){
 
-            arr[i][j+1] = str[j].toString().toInt()
+            var a = scanner.nextInt()
+            var b = scanner.nextInt()
+            var c = scanner.nextInt()
+
+            arr[a].add(Node(b,c))
+            arr[b].add(Node(a,c))
         }
-    }
 
-    bfs(num)
+        var K = scanner.nextInt()
 
-}
-
-private fun bfs(num: Int){
-
-    var queue = LinkedList<Point>()
-
-    queue.add(Point(1,1))
-
-    visit[1][1]  = true
-    dist[1][1] = 0
-    while(!queue.isEmpty()){
-        var point  : Point = queue.poll()
-        visit[point.x][point.y] = true
-        if(point.x==num&&
-                point.y==num){
-            continue
+        for(j in 0 until K){
+            person.add(scanner.nextInt())
         }
-        for(i in 0 until 4){
 
-            var tempX = point.x+dir[i][0]
-            var tempY = point.y+dir[i][1]
+        for(j in person.indices){
+            dist  = IntArray(N+1)
+            visit = BooleanArray(N+1)
+            search(person[j])
 
-            if(tempX in 1..num &&
-                    tempY in 1.. num ){
+            for(k in 1 .. N){
+                total[k] += dist[k]
+            }
 
-                if(arr[tempX][tempY]==1){
-                    if(dist[tempX][tempY] >dist[point.x][point.y]){
-                        queue.add(Point(tempX,tempY))
-                        dist[tempX][tempY] = dist[point.x][point.y]
-                    }
+        }
 
-                }else{
-                    if(dist[tempX][tempY] >dist[point.x][point.y]+1){
-                        queue.add(Point(tempX,tempY))
-                        dist[tempX][tempY] = dist[point.x][point.y]+1
-                    }
-                }
+        var min = Int.MAX_VALUE
+        var idx =-1
+        for(j in 1 until total.size){
+            if(min>total[j]){
+                min = total[j]
+                idx = j
             }
         }
+        println(idx)
     }
 
-    println(dist[num][num])
 }
 
-class Point(var x : Int , var y : Int)
+fun search(idx : Int){
+    var queue = LinkedList<Node>()
+
+    queue.add(Node(idx,100))
+
+    visit[idx]=true
+    dist[idx]=0
+
+    while (!queue.isEmpty()){
+        var node= queue.poll()
+
+        for(i in arr[node.idx].indices){
+
+            var temp = arr[node.idx][i]
+
+            if(!visit[temp.idx]){
+                queue.add(temp)
+                dist[temp.idx] = temp.weight+dist[node.idx]
+                visit[temp.idx] = true
+            }else if(dist[temp.idx]>temp.weight+dist[node.idx]){
+
+                dist[temp.idx] = temp.weight+dist[node.idx]
+                queue.add(temp)
+            }
+
+        }
+    }
+}
+
+class Node(var idx : Int , var weight : Int)
 
 
 
