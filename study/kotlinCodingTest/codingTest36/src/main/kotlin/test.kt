@@ -1,85 +1,78 @@
-
 import java.util.*
 
-var arr = intArrayOf(1,5,10,50)
-var visited : BooleanArray = booleanArrayOf()
-var ans = 0
-var sb = StringBuffer()
-fun main() = with(System.out.bufferedWriter()) {
-    var(N,M,T) = readLine()!!.split(" ").map {it.toInt() }
+var arr : Array<IntArray> = arrayOf()
+var dist : Array<IntArray> = arrayOf()
+var visit : Array<BooleanArray> = arrayOf()
+var dir  = arrayOf(intArrayOf(0,1), intArrayOf(1,0), intArrayOf(-1,0), intArrayOf(0,-1))
+fun main(args: Array<String>){
 
-    var num = readLine()!!.split(" ").map{it.toInt()}
 
-    var sb = StringBuffer()
-    T--
-    for(i in 0 until M){
-        var k = readLine()!!.toInt()
-        if(k<N){
-            sb.append(num[k])
-            sb.append("\n")
-        }else if(k==N){
-            sb.append(num[T])
-            sb.append("\n")
-        }else{
-            sb.append(num[(k-T)%(N-T)+T])
-            sb.append("\n")
+    var scanner = Scanner(System.`in`)
+
+    var num = scanner.nextInt()
+
+    arr = Array(num+1){ IntArray(num+1) }
+    dist = Array(num+1){ IntArray(num+1){Int.MAX_VALUE} }
+
+    visit = Array(num+1){ BooleanArray(num+1) }
+
+    for(i in 1 until num+1){
+
+        var str = scanner.next()
+
+        for(j in str.indices){
+
+            arr[i][j+1] = str[j].toString().toInt()
         }
     }
 
-    println(sb.toString())
+    bfs(num)
+
 }
-fun plus(count : Int ,idx : Int, sum : Int , N : Int){
 
-    if(count==N){
-        if(!visited[sum]){
-            visited[sum]  = true
-            ans++
+private fun bfs(num: Int){
+
+    var queue = LinkedList<Point>()
+
+    queue.add(Point(1,1))
+
+    visit[1][1]  = true
+    dist[1][1] = 0
+    while(!queue.isEmpty()){
+        var point  : Point = queue.poll()
+        visit[point.x][point.y] = true
+        if(point.x==num&&
+                point.y==num){
+            continue
         }
-        return
-    }else{
-        for(i in idx until arr.size){
+        for(i in 0 until 4){
 
-            plus(count+1,i,sum+arr[i],N)
+            var tempX = point.x+dir[i][0]
+            var tempY = point.y+dir[i][1]
+
+            if(tempX in 1..num &&
+                    tempY in 1.. num ){
+
+                if(arr[tempX][tempY]==1){
+                    if(dist[tempX][tempY] >dist[point.x][point.y]){
+                        queue.add(Point(tempX,tempY))
+                        dist[tempX][tempY] = dist[point.x][point.y]
+                    }
+
+                }else{
+                    if(dist[tempX][tempY] >dist[point.x][point.y]+1){
+                        queue.add(Point(tempX,tempY))
+                        dist[tempX][tempY] = dist[point.x][point.y]+1
+                    }
+                }
+            }
         }
     }
 
-
+    println(dist[num][num])
 }
 
-
-
-class Point(var x : Int , var y : Int) :Comparable<Point>{
-
-    override fun compareTo(other:Point) : Int{
-        var thisFirst = 0
-        var thisSecond =0
-        var otherFirst=0
-        var otherSecond=0
-        if(this.x>this.y){
-            thisFirst = this.x
-            thisSecond = this.y
-        }else{
-            thisFirst=this.y
-            thisSecond=this.x
-        }
-
-        if(other.x>other.y){
-            otherFirst = other.x
-            otherSecond = other.y
-        }else{
-            otherFirst=other.y
-            otherSecond=other.x
-        }
-
-        if(thisFirst==otherFirst){
-            return otherSecond -thisSecond
-        }
-        return otherFirst-thisFirst
-    }
-}
-
-
-
+class Point(var x : Int , var y : Int)
 
 
 

@@ -8,7 +8,7 @@ private var map: Array<IntArray>? = null
 private var isVisited: Array<Array<BooleanArray>>? = null //x,y, (0:안부심,1:부심)
 
 
-fun main(args: Array<String>) {
+fun main() {
     val sc = Scanner(System.`in`)
     N = sc.nextInt()
     M = sc.nextInt()
