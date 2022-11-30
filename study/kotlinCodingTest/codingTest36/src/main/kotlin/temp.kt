@@ -69,3 +69,10 @@ private fun bfs(x: Int, y: Int) {
 data class Pointw(var x: Int, var y: Int, var destroyCnt: Int //부순 벽개수
                  , var distance: Int // 이동한 개수
 )
+
+class book():Comparable<book>{
+    override fun compareTo(other: book): Int {
+        TODO("Not yet implemented")
+    }
+
+}
