@@ -2,40 +2,45 @@ import sun.management.counter.LongCounter
 import java.lang.StringBuilder
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.math.max
+
 fun main(){
 
     var scanner = Scanner(System.`in`)
 
-    var N = scanner.nextInt()
 
-    var M = scanner.nextInt()
+    var  N = scanner.nextInt()
 
-    var nList = ArrayList<String>()
-    var mList = ArrayList<String>()
-    var answer = 0
+    var max = 0
+
+    var list  = ArrayList<String>()
     for(i in 0 until N){
-        nList.add(scanner.next())
-    }
-    for(i in 0 until M){
-        mList.add(scanner.next())
+        list.add(scanner.next())
     }
 
-    for(i in mList.indices){
+    list.sortBy { it.length }
 
-        var s = mList[i]
+    for(i in list.indices){
 
-        for(j in nList.indices){
+        var check  = true
+        for(j in i+1 until list.size){
 
-            var str = nList[j]
+            var s = list[i]
+            var t = list[j]
 
-            if(str.substring(0,s.length) == s){
-                answer++
+            if(t.substring(0,s.length)==s){
+                check = false
                 break
             }
         }
+
+        if(check){
+            max++
+        }
+
     }
 
-    println(answer)
 
+    println(max)
 }
 
