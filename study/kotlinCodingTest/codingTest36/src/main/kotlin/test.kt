@@ -6,44 +6,36 @@ fun main(){
 
     var scanner = Scanner(System.`in`)
 
+    var N = scanner.nextInt()
 
-    var n = scanner.nextInt()
+    var M = scanner.nextInt()
 
-    var c = scanner.nextInt()
-
-    var w = scanner.nextInt()
-
-    var answer : Long= Long.MIN_VALUE
-    var list = ArrayList<Long>()
-    var max : Long= Long.MIN_VALUE
-    for(i in 0 until n){
-        var n  = scanner.nextLong()
-
-        max = Math.max(max,n)
-        list.add(n)
+    var nList = ArrayList<String>()
+    var mList = ArrayList<String>()
+    var answer = 0
+    for(i in 0 until N){
+        nList.add(scanner.next())
     }
-    var zero : Long  = 0
+    for(i in 0 until M){
+        mList.add(scanner.next())
+    }
 
-    for(i in 1 .. max){
-        var sum  : Long = 0
-        for(j in list.indices){
-            var cut  : Long= 0
+    for(i in mList.indices){
 
-            if(list[j]>=i.toLong()){
-                if(list[j].toInt() % (i) ==zero){
-                    cut = (list[j]/i) - 1
-                }else{
-                    cut = list[j]/i
-                }
-                if((w*i*(list[j]/i)-cut*c)>0){
-                    sum += (w*i*(list[j]/i)-cut*c)
-                }
+        var s = mList[i]
+
+        for(j in nList.indices){
+
+            var str = nList[j]
+
+            if(str.substring(0,s.length) == s){
+                answer++
+                break
             }
         }
-
-        answer = Math.max(answer , sum)
     }
 
     println(answer)
+
 }
 
