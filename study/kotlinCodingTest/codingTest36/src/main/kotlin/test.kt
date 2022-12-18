@@ -1,64 +1,78 @@
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.math.abs
 import kotlin.math.max
+import kotlin.math.min
 
 fun main(){
 
     var scanner = Scanner(System.`in`)
 
-    var arr = IntArray(375){0}
+    var plusList = ArrayList<Int>()
 
-    var N  = scanner.nextInt()
+    var minusList = ArrayList<Int>()
 
-    var list = ArrayList<Point>()
+    var N = scanner.nextInt()
 
-    var start = -1
-    var height = 0
-    var answer = 0
+    var M = scanner.nextInt()
+
+
+    var step : Long = 0
+
+    var max = 0
     for(i in 0 until N){
 
-        list.add(Point(scanner.nextInt() , scanner.nextInt()))
-    }
+        var n = scanner.nextInt()
 
-    list.sort()
-
-    for(i in list.indices){
-
-        var point = list.get(i)
-
-        for(j in point.start ..point.end){
-
-            arr[j] = arr[j]+1
+        if(n>=0){
+            plusList.add(n)
+        }else{
+            minusList.add(abs(n))
         }
     }
 
-    for(i in 1 .. 367){
+    plusList.sortDescending()
+    minusList.sortDescending()
 
-        if(arr[i]!=0 && start == -1){
-            start = i
-            height = arr[i]
-        }else if(arr[i]==0 && start!=-1){
-
-            answer += (i - start)*height
-
-            start = -1
-
-            height = 0
-        }
-
-        if(height<arr[i]){
-            height = arr[i]
-        }
+    if(plusList.isEmpty()){
+        max = minusList[0]
+    }else if(minusList.isEmpty()){
+        max = plusList[0]
+    }else{
+        max = max(plusList[0],minusList[0])
     }
 
-    println(answer)
 
-}
+    while(plusList.isNotEmpty() || minusList.isNotEmpty()){
 
-class Point(var start : Int , var end : Int): Comparable<Point>{
+        if(plusList.isNotEmpty()){
+            var temp = plusList[0]
+            plusList.removeAt(0)
+            for(i in 0 until M-1){
+                if(plusList.isEmpty()) break
+                plusList.removeAt(0)
+            }
 
-    override fun compareTo(other: Point) : Int{
+            step += temp*2
+        }
+        if(minusList.isNotEmpty()){
 
-        return (other.end- other.start) - (this.end-  this.start)
+            var temp = minusList[0]
+            minusList.removeAt(0)
+            for(i in 0 until M-1){
+                if(minusList.isEmpty()) break
+                minusList.removeAt(0)
+            }
+
+            step += temp*2
+        }
+
+
     }
+
+    step -= max
+
+    println(step)
+
+
 }
