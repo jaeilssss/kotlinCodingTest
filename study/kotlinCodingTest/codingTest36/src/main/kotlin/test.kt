@@ -5,45 +5,52 @@ fun main(){
 
     var scanner = Scanner(System.`in`)
 
-    var answer = 0
-    var N = scanner.nextInt()
 
-    var pq = PriorityQueue<Int>(compareByDescending { it })
-    var list = ArrayList<Int>()
+    var  C =scanner.nextInt()
 
-    for(i in 0 until N){
-        pq.add(scanner.nextInt())
-    }
+    for(i in 0 until C){
 
+        var N = scanner.nextInt()
+        var M = scanner.nextInt()
+        var search = 0
+        var pq = PriorityQueue<Int>(compareByDescending { it })
+        var queue = LinkedList<Int>()
+        for(j in 0 until N){
 
-    while (pq.size!=0){
-        answer++
-
-        if(answer>1440){
-            println(-1)
-            return
-        }
-        if(pq.size>=2){
-
-            var  n  = pq.poll()
-            var s = pq.poll()
-
-            if(n-1>0){
-                pq.add(n-1)
-
-            }
-            if(s-1>0){
-                pq.add(s-1)
-            }
-
-        }else if(pq.size==1){
-            var  n = pq.poll()
-            if(n-1>0){
-                pq.add(n-1)
+            var n = scanner.nextInt()
+            pq.add(n)
+            queue.add(n)
+            if(j==M){
+                search = n
             }
         }
-    }
 
-    println(answer)
+
+        var count = 1
+        var idx = 0
+        while (true){
+
+
+            if(queue.peek()!=pq.peek()){
+                if(idx==M){
+                    M += queue.size
+                }
+                var n = queue.poll()
+                queue.add(n)
+
+            }else{
+                if(idx==M){
+                    println(count)
+                    break
+                }else{
+                    pq.poll()
+                    queue.poll()
+                    count++
+                }
+            }
+            idx++
+        }
+
+    }
 
 }
