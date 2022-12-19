@@ -120,7 +120,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="kotlin-function">
           <url>file://$PROJECT_DIR$/src/main/kotlin/test.kt</url>
-          <line>6</line>
+          <line>8</line>
           <properties method="main">
             <option name="EMULATED" value="true" />
           </properties>

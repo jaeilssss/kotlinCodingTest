@@ -1,78 +1,49 @@
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.math.abs
-import kotlin.math.max
-import kotlin.math.min
 
 fun main(){
 
     var scanner = Scanner(System.`in`)
 
-    var plusList = ArrayList<Int>()
-
-    var minusList = ArrayList<Int>()
-
+    var answer = 0
     var N = scanner.nextInt()
 
-    var M = scanner.nextInt()
+    var pq = PriorityQueue<Int>(compareByDescending { it })
+    var list = ArrayList<Int>()
 
-
-    var step : Long = 0
-
-    var max = 0
     for(i in 0 until N){
+        pq.add(scanner.nextInt())
+    }
 
-        var n = scanner.nextInt()
 
-        if(n>=0){
-            plusList.add(n)
-        }else{
-            minusList.add(abs(n))
+    while (pq.size!=0){
+        answer++
+
+        if(answer>1440){
+            println(-1)
+            return
         }
-    }
+        if(pq.size>=2){
 
-    plusList.sortDescending()
-    minusList.sortDescending()
+            var  n  = pq.poll()
+            var s = pq.poll()
 
-    if(plusList.isEmpty()){
-        max = minusList[0]
-    }else if(minusList.isEmpty()){
-        max = plusList[0]
-    }else{
-        max = max(plusList[0],minusList[0])
-    }
+            if(n-1>0){
+                pq.add(n-1)
 
-
-    while(plusList.isNotEmpty() || minusList.isNotEmpty()){
-
-        if(plusList.isNotEmpty()){
-            var temp = plusList[0]
-            plusList.removeAt(0)
-            for(i in 0 until M-1){
-                if(plusList.isEmpty()) break
-                plusList.removeAt(0)
+            }
+            if(s-1>0){
+                pq.add(s-1)
             }
 
-            step += temp*2
-        }
-        if(minusList.isNotEmpty()){
-
-            var temp = minusList[0]
-            minusList.removeAt(0)
-            for(i in 0 until M-1){
-                if(minusList.isEmpty()) break
-                minusList.removeAt(0)
+        }else if(pq.size==1){
+            var  n = pq.poll()
+            if(n-1>0){
+                pq.add(n-1)
             }
-
-            step += temp*2
         }
-
-
     }
 
-    step -= max
-
-    println(step)
-
+    println(answer)
 
 }
