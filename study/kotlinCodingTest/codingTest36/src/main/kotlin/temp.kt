@@ -1,78 +1,73 @@
+import java.io.BufferedReader
+import java.io.IOException
+import java.io.InputStreamReader
 import java.util.*
 
-private val dx = intArrayOf(0, 0, -1, 1)
-private val dy = intArrayOf(-1, 1, 0, 0)
-private var N: Int = 0 //수빈이 위치
-private var M: Int = 0 //동생 위치
-private var map: Array<IntArray>? = null
-private var isVisited: Array<Array<BooleanArray>>? = null //x,y, (0:안부심,1:부심)
-
-
-fun main() {
-    val sc = Scanner(System.`in`)
-    N = sc.nextInt()
-    M = sc.nextInt()
-    map = Array(N + 2) { IntArray(M + 2) }
-    isVisited = Array(N + 2) { Array(M + 2) { BooleanArray(2) } }
-    for (i in 1..N) {
-        val line = sc.next()
-        for (j in 0 until M) {
-            map!![i][j + 1] = line[j] - '0'
+object Main {
+    var N = 0
+    var M = 0
+    @Throws(IOException::class)
+    @JvmStatic
+    fun main(args: Array<String>) {
+        val br = BufferedReader(InputStreamReader(System.`in`))
+        var st = StringTokenizer(br.readLine())
+        N = stoi(st.nextToken())
+        M = stoi(st.nextToken())
+        val rails: Deque<Container> = ArrayDeque()
+        val count = IntArray(M + 1)
+        for (i in 0 until N) {
+            st = StringTokenizer(br.readLine())
+            val priority = stoi(st.nextToken())
+            val weight = stoi(st.nextToken())
+            count[priority]++
+            rails.addLast(Container(priority, weight))
         }
-    }
-    //바깥쪽 멥은 -1로 세팅 (사방히막힌 경우 구하기위해)
-    for (i in 0 until M + 2) { //왼쪽,오른쪽벽
-        map!![0][i] = -1
-        map!![N + 1][i] = -1
-    }
-    for (i in 0 until N + 2) {
-        map!![i][0] = -1
-        map!![i][M + 1] = -1
-    }
-    bfs(1, 1)
-}
+        var targetPriority = M
+        var answer = 0
+        val stack = Stack<Container>() // 적재하는 저장소
+        while (!rails.isEmpty()) {
+            val container = rails.pollFirst()
+            val priority = container.priority
+            val weight = container.weight
+            if (isLowestPriority(count, priority)) {    // 낮은 우선순위의 컨테이너가 남아있을 경우
+                rails.addLast(Container(priority, weight))
+                answer += weight
+                continue
+            }
+            answer += weight
 
-private fun bfs(x: Int, y: Int) {
-    val queue = LinkedList<Pointw>()
-    //초깃값도 이동경로개수 포함
-    queue.offer(Pointw(x, y, 0, 1))
-    isVisited!![x][y][0] = true
-    isVisited!![x][y][1] = true
-
-    while (!queue.isEmpty()) {
-        val Pointw = queue.poll()
-        if (Pointw.x == N && Pointw.y == M) {
-            println(Pointw.distance)
-            return
-        }
-        for (i in 0..3) {
-            val x2 = Pointw.x + dx[i]
-            val y2 = Pointw.y + dy[i]
-            val destroyCnt = Pointw.destroyCnt
-            val distance = Pointw.distance
-            if (map!![x2][y2] == 1) { //이동할 곳이 벽인 경우
-                if (Pointw.destroyCnt == 0 && !isVisited!![x2][y2][1]) { //벽부순적이없고 방문한적이 없던 곳
-                    isVisited!![x2][y2][1] = true
-                    queue.offer(Pointw(x2, y2, destroyCnt + 1, distance + 1))
-                }
-            } else if (map!![x2][y2] != -1) { // 이동할 곳이 벽이 아닌 경우( + 쓰레기외부값아닌경우)
-                if (!isVisited!![x2][y2][destroyCnt]) {
-                    isVisited!![x2][y2][destroyCnt] = true
-                    queue.offer(Pointw(x2, y2, Pointw.destroyCnt, distance + 1))
-                }
+            // 무거운 무게의 컨테이너가 가장 아래로 이동
+            val tempStack = Stack<Container>()
+            while (!stack.isEmpty() && stack.peek().weight < weight && stack.peek().priority == targetPriority) {
+                val tempContainer = stack.pop()
+                answer += tempContainer.weight
+                tempStack.add(tempContainer)
+            }
+            stack.add(Container(priority, weight))
+            while (!tempStack.isEmpty()) {
+                val tempContainer = tempStack.pop()
+                answer += tempContainer.weight
+                stack.add(tempContainer)
+            }
+            count[targetPriority]--
+            if (count[targetPriority] == 0) {
+                targetPriority--
             }
         }
-    }
-    println(-1)
-}
-
-data class Pointw(var x: Int, var y: Int, var destroyCnt: Int //부순 벽개수
-                 , var distance: Int // 이동한 개수
-)
-
-class book():Comparable<book>{
-    override fun compareTo(other: book): Int {
-        TODO("Not yet implemented")
+        println(answer)
     }
 
+    private fun isLowestPriority(count: IntArray, priority: Int): Boolean {
+        for (i in M downTo priority + 1) {
+            if (count[i] > 0) // 더 낮은 우선순위가 존재할 경우
+                return true
+        }
+        return false
+    }
+
+    private fun stoi(input: String): Int {
+        return input.toInt()
+    }
+
+    internal class Container(var priority: Int, var weight: Int)
 }
