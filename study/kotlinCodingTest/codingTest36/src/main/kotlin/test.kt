@@ -1,88 +1,69 @@
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.math.abs
-
-
 fun main(){
-     fun stoi(input: String): Int {
-        return input.toInt()
-    }
+
+
     var scanner = Scanner(System.`in`)
 
+    var N = scanner.nextInt()
 
+    var M = scanner.nextInt()
 
-    var pq = PriorityQueue<Box>(compareByDescending { it.priority })
 
     var queue = LinkedList<Box>()
 
+    var answer = 0
+    var pq = PriorityQueue<Box>(compareByDescending { it.priority })
     var stack = Stack<Box>()
-
-    var answer : Long = 0
-
-    val br = BufferedReader(InputStreamReader(System.`in`))
-    var st = StringTokenizer(br.readLine())
-  var  N = stoi(st.nextToken())
-  var  M = stoi(st.nextToken())
-
     for(i in 0 until N){
+        var p = scanner.nextInt()
+        var w = scanner.nextInt()
 
-        st = StringTokenizer(br.readLine())
-        val priority = stoi(st.nextToken())
-        val weight = stoi(st.nextToken())
+        queue.add(Box(w,p,M))
+        pq.add(Box(w,p,M))
 
-        pq.add(Box(weight,priority,M))
-        queue.add(Box(weight,priority,M))
     }
 
-    while (!queue.isEmpty()){
+    while (queue.isNotEmpty()){
 
-        if(pq.peek().priority == queue.peek().priority){
+        if(queue.peek().priority == pq.peek().priority){
 
-            if(stack.isEmpty()){
-                var n = queue.poll()
-                answer += n.weight
-                stack.push(n)
-            }else{
-                var temp = ArrayList<Box>()
-                for(i in 0 until stack.size){
-                    if(stack.peek().priority==queue.peek().priority){
-                        if(stack.peek().weight<queue.peek().weight){
-                            temp.add(stack.pop())
-                        }else{
-                            break
-                        }
+            var temp = Stack<Box>()
+            for(i in stack.indices){
+
+                if(stack.peek().priority == queue.peek().priority){
+                    if(stack.peek().weight<queue.peek().weight){
+                        temp.push(stack.pop())
                     }else{
                         break
                     }
-
+                }else{
+                    break
                 }
 
-                var n = queue.poll()
-                answer+= n.weight
-                stack.push(n)
-                for(i in temp.indices){
+            }
+            var n = queue.poll()
+            answer +=n.weight
+            stack.push(n)
+            for(i in temp.indices){
 
-                    answer+=(temp[i].weight*2)
-                    stack.push(temp[i])
-                }
+                answer += (temp.peek().weight*2)
+                stack.push(temp.pop())
+
             }
             pq.poll()
 
+        }else{
 
-        }else {
-            var n = queue.poll()
-            answer+=n.weight
-            queue.add(n)
+            answer += queue.peek().weight
+            queue.add(queue.poll())
         }
+
     }
 
     println(answer)
 
 }
 
-class Box(var weight : Int , var priority : Int , var  M : Int) {
-
-
-}
+class Box(var weight : Int , var priority : Int , var  M : Int)
